@@ -18,11 +18,11 @@ import com.facebook.login.LoginResult
 import com.facebook.FacebookCallback
 
 import android.view.View
+import com.facebook.AccessToken
+import com.facebook.login.LoginManager
 
 import com.facebook.login.widget.LoginButton
-
-
-
+import java.util.*
 
 
 class LoginActivity : BaseActivity() {
@@ -45,6 +45,14 @@ class LoginActivity : BaseActivity() {
 
         binding.loginButton.setReadPermissions("email")
 
+        binding.facebookLoginBtn.setOnClickListener {
+
+//            우리가 붙인 버튼에 기능 활용
+
+            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"))
+
+        }
+
 
 
         // Callback registration
@@ -53,6 +61,10 @@ class LoginActivity : BaseActivity() {
                 // App code
 
                 Log.d("확인용", loginResult.toString())
+
+                val accessToken = AccessToken.getCurrentAccessToken()
+                Log.d("페북토큰", accessToken.toString())
+
             }
 
             override fun onCancel() {
