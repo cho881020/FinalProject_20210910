@@ -107,6 +107,9 @@ class LoginActivity : BaseActivity() {
                                         "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
                                         "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}"
                             )
+
+//                            소셜로그인 API에 "kakao" 로 id / 닉네임 전송. (도전과제)
+
                         }
                     }
 
@@ -153,6 +156,12 @@ class LoginActivity : BaseActivity() {
                                     val basicResponse = response.body()!!
 
                                     Toast.makeText(mContext, basicResponse.message, Toast.LENGTH_SHORT).show()
+                                    Log.d("API서버가 준 토큰값", basicResponse.data.token)
+
+//                                    ContextUtil 등으로 SharedPreferences로 토큰값 저장.
+
+//                                    메인화면으로 이동.
+
                                 }
 
                                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
