@@ -60,6 +60,17 @@ class LoginActivity : BaseActivity() {
                         override fun onCompleted(jsonObj: JSONObject?, response: GraphResponse?) {
 
                             Log.d("내정보내용", jsonObj.toString())
+
+                            val name = jsonObj!!.getString("name")
+                            val id = jsonObj.getString("id")
+
+//                            가입한 회원 이름 => 우리 서버에 사용자 이름으로 (닉네임으로) 저장
+                            Log.d("이름", name)
+//                            페북에서 사용자를 구별하는 고유번호. => 우리 서버에 같이 저장.  회원가입 or 로그인 근거자료로 활용
+                            Log.d("id값", id)
+
+//                            Todo - 페북이 알려준 이름/id값을,  API서버에 전달해서, 소셜로그인 처리 요청.
+
                         }
 
                     })
