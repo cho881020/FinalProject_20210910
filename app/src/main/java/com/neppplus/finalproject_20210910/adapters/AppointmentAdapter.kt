@@ -29,6 +29,14 @@ class AppointmentAdapter(
 
         val data = mList[position]
 
+        val titleTxt = row.findViewById<TextView>(R.id.titleTxt)
+        val dateTimeTxt = row.findViewById<TextView>(R.id.dateTimeTxt)
+        val placeNameTxt = row.findViewById<TextView>(R.id.placeNameTxt)
+
+        titleTxt.text = data.title
+        dateTimeTxt.text = data.createdAt
+        placeNameTxt.text= data.placeName
+
 
         return row
     }
