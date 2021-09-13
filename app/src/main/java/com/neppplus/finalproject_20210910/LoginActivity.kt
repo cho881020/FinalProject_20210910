@@ -21,6 +21,7 @@ import com.facebook.login.LoginManager
 import com.facebook.login.widget.LoginButton
 import com.kakao.sdk.user.UserApiClient
 import com.neppplus.finalproject_20210910.datas.BasicResponse
+import com.neppplus.finalproject_20210910.utils.ContextUtil
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -59,6 +60,13 @@ class LoginActivity : BaseActivity() {
                     if (response.isSuccessful) {
                         val basicResponse = response.body()!!
                         Toast.makeText(mContext, basicResponse.message, Toast.LENGTH_SHORT).show()
+
+//                        로그인 성공 =? "data" jsonObject -> DataResponse -> token변수.
+
+                        Log.d("토큰", basicResponse.data.token)
+
+                        ContextUtil.setToken(mContext, basicResponse.data.token)
+
                     }
                     else {
 
