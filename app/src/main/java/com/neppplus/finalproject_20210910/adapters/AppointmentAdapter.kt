@@ -34,7 +34,7 @@ class AppointmentAdapter(
         val placeNameTxt = row.findViewById<TextView>(R.id.placeNameTxt)
 
         titleTxt.text = data.title
-        dateTimeTxt.text = data.createdAt
+        dateTimeTxt.text = data.datetime
         placeNameTxt.text= data.placeName
 
 
