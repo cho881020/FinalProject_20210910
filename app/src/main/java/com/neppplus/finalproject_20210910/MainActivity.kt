@@ -50,7 +50,10 @@ class MainActivity : BaseActivity() {
 
                 val basicResponse = response.body()!!
 
-                Log.d("약속목록", basicResponse.message)
+//                약속목록변수에 => 서버가 알려준 약속목록을 전부 추가.
+                mAppointmentList.addAll( basicResponse.data.appointments )
+
+//                어댑터 새로고침
 
             }
 
