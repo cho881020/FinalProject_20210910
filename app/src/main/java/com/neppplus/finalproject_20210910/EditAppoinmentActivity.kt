@@ -1,9 +1,11 @@
 package com.neppplus.finalproject_20210910
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.DatePicker
+import android.widget.TimePicker
 import androidx.databinding.DataBindingUtil
 import com.neppplus.finalproject_20210910.databinding.ActivityEditAppoinmentBinding
 import java.text.SimpleDateFormat
@@ -60,6 +62,26 @@ class EditAppoinmentActivity : BaseActivity() {
         binding.timeTxt.setOnClickListener {
 //            TimePicker 띄우기 -> 입력 완료되면   시/분 제공
 //             mSelect... 에 시/분 저장
+
+            val tsl = object  : TimePickerDialog.OnTimeSetListener {
+                override fun onTimeSet(p0: TimePicker?, hour: Int, minute: Int) {
+
+                    mSelectedDateTime.set(Calendar.HOUR_OF_DAY, hour)
+                    mSelectedDateTime.set(Calendar.MINUTE, minute)
+
+//                    오후 6:05  형태로 가공. => SimpleDateFormat
+                    val sdf = SimpleDateFormat("a h:mm")
+                    binding.timeTxt.text = sdf.format(mSelectedDateTime.time)
+
+                }
+
+            }
+
+            TimePickerDialog(mContext, tsl,
+                mSelectedDateTime.get(Calendar.HOUR_OF_DAY),
+                mSelectedDateTime.get(Calendar.MINUTE),
+                false).show()
+
         }
 
 
