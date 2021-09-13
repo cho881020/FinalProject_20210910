@@ -75,6 +75,8 @@ class LoginActivity : BaseActivity() {
 
                         GlobalData.loginUser = basicResponse.data.user
 
+                        moveToMain()
+
 
                     }
                     else {
@@ -137,6 +139,7 @@ class LoginActivity : BaseActivity() {
                                     val basicResponse = response.body()!!
                                     ContextUtil.setToken(mContext, basicResponse.data.token)
                                     GlobalData.loginUser = basicResponse.data.user
+                                    moveToMain()
                                 }
 
                                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
@@ -198,10 +201,8 @@ class LoginActivity : BaseActivity() {
                                     GlobalData.loginUser = basicResponse.data.user
 
 //                                    메인화면으로 이동.
+                                    moveToMain()
 
-                                    val myIntent = Intent(mContext, MainActivity::class.java)
-                                    startActivity(myIntent)
-                                    finish()
 
 
                                 }
@@ -280,5 +281,13 @@ class LoginActivity : BaseActivity() {
         callbackManager.onActivityResult(requestCode, resultCode, data)
         super.onActivityResult(requestCode, resultCode, data)
     }
+
+
+    fun moveToMain() {
+        val myIntent = Intent(mContext, MainActivity::class.java)
+        startActivity(myIntent)
+        finish()
+    }
+
 
 }
