@@ -83,12 +83,18 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/mapView"
+<!--        <LinearLayout-->
+<!--            android:id="@+id/mapView"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="200dp"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="vertical" />-->
+
+        <fragment
+            android:id="@+id/naverMapView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:gravity="center"
-            android:orientation="vertical" />
+            android:layout_height="250dp"
+            class="com.naver.maps.map.MapFragment" />
 
         <Button
             android:id="@+id/okBtn"
