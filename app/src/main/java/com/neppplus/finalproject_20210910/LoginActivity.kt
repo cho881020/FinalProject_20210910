@@ -117,6 +117,23 @@ class LoginActivity : BaseActivity() {
                             )
 
 //                            소셜로그인 API에 "kakao" 로 id / 닉네임 전송. (도전과제)
+                            apiService.postRequestSocialLogin(
+                                "kakao",
+                                user.id.toString(),
+                                user.kakaoAccount?.profile?.nickname!!).enqueue(object : Callback<BasicResponse> {
+                                override fun onResponse(
+                                    call: Call<BasicResponse>,
+                                    response: Response<BasicResponse>
+                                ) {
+                                    val basicResponse = response.body()!!
+                                    ContextUtil.setToken(mContext, basicResponse.data.token)
+                                }
+
+                                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                                }
+
+                            })
 
                         }
                     }
@@ -167,6 +184,7 @@ class LoginActivity : BaseActivity() {
                                     Log.d("API서버가 준 토큰값", basicResponse.data.token)
 
 //                                    ContextUtil 등으로 SharedPreferences로 토큰값 저장.
+                                    ContextUtil.setToken(mContext, basicResponse.data.token)
 
 //                                    메인화면으로 이동.
 
