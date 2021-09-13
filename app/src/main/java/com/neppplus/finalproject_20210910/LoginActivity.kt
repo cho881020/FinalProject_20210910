@@ -67,6 +67,10 @@ class LoginActivity : BaseActivity() {
 
                         ContextUtil.setToken(mContext, basicResponse.data.token)
 
+
+//                        Toast.makeText(mContext, basicResponse.data.user.email, Toast.LENGTH_SHORT).show()
+
+
                     }
                     else {
 
