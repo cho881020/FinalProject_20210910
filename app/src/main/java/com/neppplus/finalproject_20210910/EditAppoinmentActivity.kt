@@ -12,6 +12,8 @@ import androidx.databinding.DataBindingUtil
 import com.neppplus.finalproject_20210910.databinding.ActivityEditAppoinmentBinding
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.utils.ContextUtil
+import net.daum.mf.map.api.MapView
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -156,6 +158,13 @@ class EditAppoinmentActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+//        카카오 지도 띄워보기
+
+        val mapView = MapView(mContext)
+
+        binding.mapView.addView(mapView)
+
 
     }
 }
