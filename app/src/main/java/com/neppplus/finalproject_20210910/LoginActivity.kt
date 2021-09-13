@@ -22,6 +22,7 @@ import com.facebook.login.widget.LoginButton
 import com.kakao.sdk.user.UserApiClient
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.utils.ContextUtil
+import com.neppplus.finalproject_20210910.utils.GlobalData
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -69,6 +70,10 @@ class LoginActivity : BaseActivity() {
 
 
 //                        Toast.makeText(mContext, basicResponse.data.user.email, Toast.LENGTH_SHORT).show()
+
+//                        로그인한사람이 누구인지 => GlobalData 클래스에 저장.
+
+                        GlobalData.loginUser = basicResponse.data.user
 
 
                     }
@@ -131,6 +136,7 @@ class LoginActivity : BaseActivity() {
                                 ) {
                                     val basicResponse = response.body()!!
                                     ContextUtil.setToken(mContext, basicResponse.data.token)
+                                    GlobalData.loginUser = basicResponse.data.user
                                 }
 
                                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
@@ -189,6 +195,7 @@ class LoginActivity : BaseActivity() {
 
 //                                    ContextUtil 등으로 SharedPreferences로 토큰값 저장.
                                     ContextUtil.setToken(mContext, basicResponse.data.token)
+                                    GlobalData.loginUser = basicResponse.data.user
 
 //                                    메인화면으로 이동.
 
