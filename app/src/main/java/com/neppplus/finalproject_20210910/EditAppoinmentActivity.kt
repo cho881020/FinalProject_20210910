@@ -4,8 +4,10 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.DatePicker
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.neppplus.finalproject_20210910.databinding.ActivityEditAppoinmentBinding
 import java.text.SimpleDateFormat
@@ -95,6 +97,24 @@ class EditAppoinmentActivity : BaseActivity() {
             val inputTitle = binding.titleEdt.text.toString()
 
 //            2. 약속 일시? -> "2021-09-13 11:11" String 변환까지.
+//              => 날짜 / 시간중 선택 안한게 있다면? 선택하라고 토스트, 함수 강제 종료. (vaildation)
+
+            if ( binding.dateTxt.text == "일자 설정" ) {
+                Toast.makeText(mContext, "일자를 설정하지 않았습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (binding.timeTxt.text == "시간 설정") {
+                Toast.makeText(mContext, "시간을 설정하지 않았습니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+//            여기 코드 실행된다 : 일자 / 시간 모두 설정했다.
+//            선택된 약속일시를 -> "yyyy-MM-dd HH:mm" 양식으로 가공. => 최종 서버에 파라미터로 첨부
+            val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm")
+            val finalDatetime = sdf.format(mSelectedDateTime.time)
+
+            Log.d("서버에보낼 약속일시", finalDatetime)
 
 //            3. 약속 장소?
 //            - 장소 이름
