@@ -10,6 +10,11 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.neppplus.finalproject_20210910.databinding.ActivityEditAppoinmentBinding
+import com.neppplus.finalproject_20210910.datas.BasicResponse
+import com.neppplus.finalproject_20210910.utils.ContextUtil
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -120,7 +125,31 @@ class EditAppoinmentActivity : BaseActivity() {
 //            - 장소 이름
             val inputPlaceName = binding.placeSearchEdt.text.toString()
 
-//            - 장소 위도/경도?
+//            - 장소 위도/경도?  (임시 : 학원 좌표 하드코딩)
+            val lat = 37.57794132143432
+            val lng = 127.03353823833795
+
+
+//            서버에 API 호출
+            apiService.postRequestAppointment(
+                ContextUtil.getToken(mContext),
+                inputTitle,
+                finalDatetime,
+                inputPlaceName,
+                lat, lng).enqueue(object : Callback<BasicResponse> {
+                override fun onResponse(
+                    call: Call<BasicResponse>,
+                    response: Response<BasicResponse>
+                ) {
+
+                }
+
+                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                }
+
+            })
+
 
         }
 
