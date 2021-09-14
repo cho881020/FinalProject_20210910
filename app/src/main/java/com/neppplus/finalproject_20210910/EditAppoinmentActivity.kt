@@ -182,6 +182,8 @@ class EditAppoinmentActivity : BaseActivity() {
 
     override fun setValues() {
 
+        titleTxt.text = "약속 잡기"
+
 //        카카오 지도 띄워보기
 
 //        val mapView = MapView(mContext)

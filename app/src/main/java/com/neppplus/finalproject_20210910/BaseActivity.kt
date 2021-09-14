@@ -2,6 +2,8 @@ package com.neppplus.finalproject_20210910
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -17,6 +19,10 @@ abstract class BaseActivity : AppCompatActivity() {
 //    각 화면에서는 apiService 변수를 불러내서 사용만 하면 되도록.
     private lateinit var retrofit : Retrofit
     lateinit var apiService : ServerAPIService
+
+//    액션바에 있는 UI요소들을 상속시켜주자.
+    lateinit var profileImg : ImageView
+    lateinit var titleTxt : TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +48,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
         val toolBar = defActionBar.customView.parent as Toolbar
         toolBar.setContentInsetsAbsolute(0,0)
+
+        profileImg = defActionBar.customView.findViewById(R.id.profileImg)
+        titleTxt = defActionBar.customView.findViewById(R.id.titleTxt)
 
     }
 

@@ -36,6 +36,8 @@ class ViewMapActivity : BaseActivity() {
 
         mAppointmentData = intent.getSerializableExtra("appointment") as AppointmentData
 
+        titleTxt.text = "약속장소 확인"
+
         val fm = supportFragmentManager
         val mapFragment = fm.findFragmentById(R.id.naverMapFrag) as MapFragment?
             ?: MapFragment.newInstance().also {
