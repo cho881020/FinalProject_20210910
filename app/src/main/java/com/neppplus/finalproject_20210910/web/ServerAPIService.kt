@@ -46,4 +46,13 @@ interface ServerAPIService {
     fun getRequestMyInfo() : Call<BasicResponse>
 
 
+//    POST - PUT - PATCH : FormData 활용
+//    회원정보 수정 API
+    @FormUrlEncoded
+    @PATCH("/user")
+    fun patchRequestMyInfo(
+        @Field("field") field:String,
+        @Field("value") value:String) : Call<BasicResponse>
+
+
 }
