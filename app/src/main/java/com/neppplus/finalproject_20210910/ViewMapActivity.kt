@@ -60,6 +60,69 @@ class ViewMapActivity : BaseActivity() {
 
             val infoWindow = InfoWindow()
 
+            val myODsayService = ODsayService.init(mContext, "UqivPrD/2a9zX6LAlrVto3HvYEXgv/BCT+0xVMjCVCg")
+
+            myODsayService.requestSearchPubTransPath(
+                126.92971682319262.toString(),
+                37.613082888996104.toString(),
+                mAppointmentData.longitude.toString(),
+                mAppointmentData.latitude.toString(),
+                null,
+                null,
+                null,
+                object : OnResultCallbackListener {
+                    override fun onSuccess(p0: ODsayData?, p1: API?) {
+
+                        val jsonObj = p0!!.json
+                        val resultObj = jsonObj.getJSONObject("result")
+                        val pathArr = resultObj.getJSONArray("path")
+
+
+                        val firstPath = pathArr.getJSONObject(0)
+                        val infoObj = firstPath.getJSONObject("info")
+
+                        val totalTime = infoObj.getInt("totalTime")
+
+                        Log.d("총 소요시간", totalTime.toString())
+
+                        val hour = totalTime / 60
+                        val minute = totalTime % 60
+
+                        Log.d("예상시간", hour.toString())
+                        Log.d("예상분", minute.toString())
+
+                        infoWindow.adapter = object : InfoWindow.DefaultViewAdapter(mContext) {
+                            override fun getContentView(p0: InfoWindow): View {
+
+                                val myView = LayoutInflater.from(mContext).inflate(R.layout.my_custom_info_window, null)
+
+                                val placeNameTxt = myView.findViewById<TextView>(R.id.placeNameTxt)
+                                val arrivalTimeTxt = myView.findViewById<TextView>(R.id.arrivalTimeTxt)
+
+                                placeNameTxt.text = mAppointmentData.placeName
+
+                                if (hour == 0) {
+                                    arrivalTimeTxt.text = "${minute}분 소요 예정"
+                                }
+                                else {
+                                    arrivalTimeTxt.text = "${hour}시간 ${minute}분 소요 예정"
+                                }
+
+                                return myView
+                            }
+
+                        }
+
+                    }
+
+                    override fun onError(p0: Int, p1: String?, p2: API?) {
+//                                실패시 예상시간 받아오지 못했다는 안내.
+
+                        Log.d("예상시간실패", p1!!)
+                    }
+
+                })
+
             infoWindow.adapter = object : InfoWindow.DefaultViewAdapter(mContext) {
                 override fun getContentView(p0: InfoWindow): View {
 
@@ -71,63 +134,7 @@ class ViewMapActivity : BaseActivity() {
                     placeNameTxt.text = mAppointmentData.placeName
 //                    arrivalTimeTxt.text = "??시간 ?분 소요예상"
 
-                    val myODsayService = ODsayService.init(mContext, "UqivPrD/2a9zX6LAlrVto3HvYEXgv/BCT+0xVMjCVCg")
 
-                    myODsayService.requestSearchPubTransPath(
-                        126.92971682319262.toString(),
-                        37.613082888996104.toString(),
-                        mAppointmentData.longitude.toString(),
-                        mAppointmentData.latitude.toString(),
-                        null,
-                    null,
-                    null,
-                        object : OnResultCallbackListener {
-                            override fun onSuccess(p0: ODsayData?, p1: API?) {
-
-                                val jsonObj = p0!!.json
-                                val resultObj = jsonObj.getJSONObject("result")
-                                val pathArr = resultObj.getJSONArray("path")
-
-//                                for (i  in   0 until pathArr.length()) {
-//                                    val pathObj = pathArr.getJSONObject(i)
-//                                    Log.d("API응답", pathObj.toString(4))
-//                                }
-
-                                val firstPath = pathArr.getJSONObject(0)
-                                val infoObj = firstPath.getJSONObject("info")
-
-                                val totalTime = infoObj.getInt("totalTime")
-
-                                Log.d("총 소요시간", totalTime.toString())
-
-//                                시간 / 분으로 분리.  92 => 1시간 32분
-//                                시간 : 전체분 / 60
-//                                분 : 전체분 % 60
-
-                                val hour = totalTime / 60
-                                val minute = totalTime % 60
-
-                                Log.d("예상시간", hour.toString())
-                                Log.d("예상분", minute.toString())
-
-                                arrivalTimeTxt.text = "테스트"
-
-                                runOnUiThread {
-                                    arrivalTimeTxt.text = "${hour}시간 ${minute}분 소요 예상"
-                                }
-
-
-
-                            }
-
-                            override fun onError(p0: Int, p1: String?, p2: API?) {
-//                                실패시 예상시간 받아오지 못했다는 안내.
-
-                                Log.d("예상시간실패", p1!!)
-                                arrivalTimeTxt.text = "예상시간 받아오기 실패"
-                            }
-
-                        })
 
 
                     return  myView
