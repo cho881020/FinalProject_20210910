@@ -53,6 +53,14 @@ class MySettingActivity : BaseActivity() {
                     ) {
                         if (response.isSuccessful) {
 
+//                            내 수정된 정보 파싱. => 로그인한 사용자의 정보로 갱신.
+                            val basicResponse = response.body()!!
+
+                            GlobalData.loginUser = basicResponse.data.user
+
+                            setUserInfo()
+
+
                         }
                     }
 
@@ -76,6 +84,10 @@ class MySettingActivity : BaseActivity() {
 
         titleTxt.text = "내 정보 설정"
 
+        setUserInfo()
+    }
+
+    fun setUserInfo() {
         binding.nicknameTxt.text = GlobalData.loginUser!!.nickName
 
 //       로그인한사람의 준비시간이 1시간 이상 or 아니냐
@@ -90,4 +102,5 @@ class MySettingActivity : BaseActivity() {
         }
 
     }
+
 }
