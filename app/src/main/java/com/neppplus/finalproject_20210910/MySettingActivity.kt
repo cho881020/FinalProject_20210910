@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -139,6 +140,15 @@ class MySettingActivity : BaseActivity() {
         else {
             binding.readyTimeTxt.text = "${GlobalData.loginUser!!.readyMinute}분"
         }
+
+//        페북 / 카톡 / 일반 이냐 에 따라 이미지를 다르게  처리.
+
+        when(GlobalData.loginUser!!.provider) {
+            "facebook" -> binding.socialLoginImg.setImageResource(R.drawable.facebook_login_icon)
+            "kakao" -> binding.socialLoginImg.setImageResource(R.drawable.kakao_login_icon)
+            else -> binding.socialLoginImg.visibility = View.GONE
+        }
+
 
     }
 

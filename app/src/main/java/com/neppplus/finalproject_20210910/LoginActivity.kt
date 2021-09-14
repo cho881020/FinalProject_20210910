@@ -136,10 +136,18 @@ class LoginActivity : BaseActivity() {
                                     call: Call<BasicResponse>,
                                     response: Response<BasicResponse>
                                 ) {
-                                    val basicResponse = response.body()!!
-                                    ContextUtil.setToken(mContext, basicResponse.data.token)
-                                    GlobalData.loginUser = basicResponse.data.user
-                                    moveToMain()
+                                    if (response.isSuccessful) {
+                                        val basicResponse = response.body()!!
+                                        ContextUtil.setToken(mContext, basicResponse.data.token)
+                                        GlobalData.loginUser = basicResponse.data.user
+                                        moveToMain()
+                                    }
+                                    else {
+                                        val errorBody = response.errorBody()!!.string()
+                                        val jsonObj = JSONObject(errorBody)
+                                        Log.d("응답내용", jsonObj.toString())
+                                    }
+
                                 }
 
                                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
