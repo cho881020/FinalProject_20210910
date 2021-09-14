@@ -15,15 +15,17 @@
         android:theme="@style/Theme.FinalProject_20210910"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ViewMapActivity"
+            android:exported="true" />
+        <activity
             android:name=".SplashActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            android:exported="true" >
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".EditAppoinmentActivity"
@@ -36,8 +38,7 @@
             android:exported="true" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"></activity>
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
