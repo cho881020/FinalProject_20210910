@@ -2,6 +2,8 @@ package com.neppplus.finalproject_20210910
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
@@ -51,12 +53,17 @@ class ViewMapActivity : BaseActivity() {
 //            기본적인 모양의 정보창 띄워주기 (마커에 연결)
 
             val infoWindow = InfoWindow()
-            infoWindow.adapter = object : InfoWindow.DefaultTextAdapter(mContext) {
-                override fun getText(p0: InfoWindow): CharSequence {
-                    return mAppointmentData.placeName
+
+            infoWindow.adapter = object : InfoWindow.DefaultViewAdapter(mContext) {
+                override fun getContentView(p0: InfoWindow): View {
+
+                    val myView = LayoutInflater.from(mContext).inflate(R.layout.my_custom_info_window, null)
+
+                    return  myView
                 }
 
             }
+
             infoWindow.open(marker)
 
 
