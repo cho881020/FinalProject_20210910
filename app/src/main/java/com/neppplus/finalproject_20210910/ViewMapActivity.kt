@@ -73,6 +73,31 @@ class ViewMapActivity : BaseActivity() {
 
             infoWindow.open(marker)
 
+//            지도의 아무데나 찍으면 => 열려있는 정보창 닫아주기.
+            it.setOnMapClickListener { pointF, latLng ->
+
+                infoWindow.close()
+
+            }
+
+//            마커를 누를때 : 정보창이 닫혀있으면 => 열어주자.
+//             열려있으면 => 닫아주자.
+
+            marker.setOnClickListener {
+
+                val clickedMarker = it as Marker
+
+                if (clickedMarker.infoWindow == null) {
+//                    마커에 연결된 정보창 없을때 (닫혀있을때)
+                    infoWindow.open(clickedMarker)
+                }
+                else {
+                    infoWindow.close()
+                }
+
+                return@setOnClickListener true
+            }
+
 
         }
 
