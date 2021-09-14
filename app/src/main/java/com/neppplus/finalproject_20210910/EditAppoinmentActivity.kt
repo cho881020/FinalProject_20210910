@@ -9,6 +9,11 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.MapFragment
+import com.naver.maps.map.NaverMap
+import com.naver.maps.map.OnMapReadyCallback
 import com.neppplus.finalproject_20210910.databinding.ActivityEditAppoinmentBinding
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.utils.ContextUtil
@@ -171,5 +176,29 @@ class EditAppoinmentActivity : BaseActivity() {
 //        binding.mapView.addView(mapView)
 
 
+//        네이버 지도 Fragment 다루기
+
+        val fm = supportFragmentManager
+        val mapFragment = fm.findFragmentById(R.id.naverMapView) as MapFragment?
+            ?: MapFragment.newInstance().also {
+                fm.beginTransaction().add(R.id.naverMapView, it).commit()
+            }
+
+        mapFragment.getMapAsync {
+            Log.d("지도객체-바로할일", it.toString())
+
+//            학원 좌표를 지도 시작점으로. (예제)
+
+//            it.mapType = NaverMap.MapType.Hybrid
+
+//            좌표를 다루는 변수 - LatLng클래스 활용.
+            val neppplusCoord = LatLng(37.57793737795487, 127.03355269913862)
+
+            val cameraUpdate = CameraUpdate.scrollTo(neppplusCoord)
+            it.moveCamera(cameraUpdate)
+
+        }
+
     }
+
 }
