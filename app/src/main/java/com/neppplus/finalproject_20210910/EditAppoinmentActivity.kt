@@ -191,11 +191,21 @@ class EditAppoinmentActivity : BaseActivity() {
 
 //            it.mapType = NaverMap.MapType.Hybrid
 
+
 //            좌표를 다루는 변수 - LatLng클래스 활용.
             val neppplusCoord = LatLng(37.57793737795487, 127.03355269913862)
 
             val cameraUpdate = CameraUpdate.scrollTo(neppplusCoord)
             it.moveCamera(cameraUpdate)
+
+
+            val uiSettings = it.uiSettings
+            uiSettings.isCompassEnabled = true
+            uiSettings.isScaleBarEnabled = false
+
+
+
+
 
         }
 
