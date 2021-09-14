@@ -28,6 +28,15 @@ class MySettingActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        binding.editNicknameLayout.setOnClickListener {
+
+//            응용문제 => AlertDialog로 닉네임을 입력받자.
+//             EditText를 사용할 수 있는 방법?
+
+//            PATCH - /user => field : nickname으로 보내서 닉변.
+
+        }
+
         binding.readyTimeLayout.setOnClickListener {
 
 //            응용문제 => AlertDialog로 준비시간을 입력받자.
