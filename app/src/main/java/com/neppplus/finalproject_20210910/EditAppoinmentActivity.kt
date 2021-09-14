@@ -32,6 +32,10 @@ class EditAppoinmentActivity : BaseActivity() {
 //    선택한 약속 일시를 저장할 변수.
     val mSelectedDateTime = Calendar.getInstance()  // 기본값 : 현재 시간
 
+//    선택한 약속장소를 저장할 변수.
+    var mSelectedLat = 0.0 // Double을 넣을것임.
+    var mSelectedLng = 0.0 // Double
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit_appoinment)
@@ -133,16 +137,23 @@ class EditAppoinmentActivity : BaseActivity() {
             val inputPlaceName = binding.placeSearchEdt.text.toString()
 
 //            - 장소 위도/경도?  (임시 : 학원 좌표 하드코딩)
-            val lat = 37.57794132143432
-            val lng = 127.03353823833795
+//            val lat = 37.57794132143432
+//            val lng = 127.03353823833795
 
+//            지도에서 클릭한 좌표로  위경도 첨부.
+//            선택 안했다면? 선택해달라고 안내.
+
+            if (mSelectedLat == 0.0 && mSelectedLng == 0.0) {
+                Toast.makeText(mContext, "약속 장소를 지도를 클릭해 선택해주세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
 //            서버에 API 호출
             apiService.postRequestAppointment(
                 inputTitle,
                 finalDatetime,
                 inputPlaceName,
-                lat, lng).enqueue(object : Callback<BasicResponse> {
+                mSelectedLat, mSelectedLng).enqueue(object : Callback<BasicResponse> {
                 override fun onResponse(
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
@@ -203,8 +214,13 @@ class EditAppoinmentActivity : BaseActivity() {
             uiSettings.isCompassEnabled = true
             uiSettings.isScaleBarEnabled = false
 
+            it.setOnMapClickListener { pointF, latLng ->
+                Toast.makeText(mContext, "위도 : ${latLng.latitude},  경도 : ${latLng.longitude}", Toast.LENGTH_SHORT).show()
 
+                mSelectedLat = latLng.latitude
+                mSelectedLng = latLng.longitude
 
+            }
 
 
         }
