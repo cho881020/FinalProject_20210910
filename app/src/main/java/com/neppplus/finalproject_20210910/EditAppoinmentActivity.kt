@@ -15,6 +15,7 @@ import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import com.neppplus.finalproject_20210910.databinding.ActivityEditAppoinmentBinding
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.utils.ContextUtil
@@ -218,6 +219,7 @@ class EditAppoinmentActivity : BaseActivity() {
 
 //            선택된 위치를 보여줄 마커 하나만 생성.
             val selectedPointMarker = Marker()
+            selectedPointMarker.icon = OverlayImage.fromResource(R.drawable.red_marker)
 
             it.setOnMapClickListener { pointF, latLng ->
                 Toast.makeText(mContext, "위도 : ${latLng.latitude},  경도 : ${latLng.longitude}", Toast.LENGTH_SHORT).show()
