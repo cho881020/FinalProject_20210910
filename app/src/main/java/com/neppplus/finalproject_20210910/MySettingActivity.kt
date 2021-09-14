@@ -35,6 +35,36 @@ class MySettingActivity : BaseActivity() {
 
 //            PATCH - /user => field : nickname으로 보내서 닉변.
 
+            val customView = LayoutInflater.from(mContext).inflate(R.layout.my_custom_alert_nickname, null)
+            val alert = AlertDialog.Builder(mContext)
+            alert.setTitle("닉네임 변경")
+            alert.setView(customView)
+            alert.setPositiveButton("확인", DialogInterface.OnClickListener { dialogInterface, i ->
+                val nicknameEdt = customView.findViewById<EditText>(R.id.nicknameEdt)
+
+                apiService.patchRequestMyInfo("nickname", nicknameEdt.text.toString()).enqueue(object : Callback<BasicResponse> {
+                    override fun onResponse(
+                        call: Call<BasicResponse>,
+                        response: Response<BasicResponse>
+                    ) {
+                        if (response.isSuccessful) {
+                            val basicResponse = response.body()!!
+                            GlobalData.loginUser = basicResponse.data.user
+
+                            setUserInfo()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                    }
+
+                })
+
+            })
+            alert.setNegativeButton("취소", null)
+            alert.show()
+
         }
 
         binding.readyTimeLayout.setOnClickListener {
