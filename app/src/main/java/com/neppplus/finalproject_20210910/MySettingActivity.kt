@@ -149,6 +149,12 @@ class MySettingActivity : BaseActivity() {
             else -> binding.socialLoginImg.visibility = View.GONE
         }
 
+//        일반로그인 (default) 는 비번 변경 UI 표시.
+        when (GlobalData.loginUser!!.provider) {
+            "default" -> binding.passwordLayout.visibility = View.VISIBLE
+            else -> binding.passwordLayout.visibility = View.GONE
+        }
+
 
     }
 
