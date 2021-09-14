@@ -2,10 +2,15 @@ package com.neppplus.finalproject_20210910
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.overlay.Marker
 import com.neppplus.finalproject_20210910.databinding.ActivityEditMyPlaceBinding
+import com.neppplus.finalproject_20210910.datas.BasicResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class EditMyPlaceActivity : BaseActivity() {
 
@@ -29,6 +34,26 @@ class EditMyPlaceActivity : BaseActivity() {
 
 //            멤버변수에 있는 Lat / Lng 사용하자.
 
+            apiService.postRequestAddMyPlace(
+                inputName,
+                mSelectedLat,
+                mSelectedLng,
+                true).enqueue(object : Callback<BasicResponse> {
+                override fun onResponse(
+                    call: Call<BasicResponse>,
+                    response: Response<BasicResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(mContext, "내 출발장소를 추가했습니다.", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                }
+
+                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                }
+
+            })
 
 
         }
