@@ -21,6 +21,8 @@ class ViewMyPlaceListActivity : BaseActivity() {
     }
 
     override fun setValues() {
+        
+        titleTxt.text = "내가 자주 쓰는 출발장소들"
 
     }
 }

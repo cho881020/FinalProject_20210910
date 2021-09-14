@@ -8,5 +8,7 @@
         android:orientation="vertical"
         tools:context=".ViewMyPlaceListActivity">
 
+
+
     </LinearLayout>
 </layout>

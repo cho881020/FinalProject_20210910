@@ -1,6 +1,7 @@
 package com.neppplus.finalproject_20210910
 
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,6 +29,11 @@ class MySettingActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.myPlacesLayout.setOnClickListener { 
+            val myIntent = Intent(mContext, ViewMyPlaceListActivity::class.java)
+            startActivity(myIntent)
+        }
 
         binding.editNicknameLayout.setOnClickListener {
 
