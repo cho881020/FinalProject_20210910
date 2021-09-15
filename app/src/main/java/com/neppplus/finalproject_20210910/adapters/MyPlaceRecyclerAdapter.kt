@@ -30,6 +30,13 @@ class MyPlaceRecyclerAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
+//        실제 데이터 뿌려주는 부분.
+        val data = mList[position]
+
+//        예시 : 실제 장소 이름만 우선 출력.
+        holder.placeNameTxt.text = data.name
+
+
     }
 
     override fun getItemCount() = mList.size
