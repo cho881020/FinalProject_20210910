@@ -1,7 +1,9 @@
 package com.neppplus.finalproject_20210910.datas
 
+import android.util.Log
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AppointmentData(
@@ -18,4 +20,40 @@ class AppointmentData(
     var createdAt: Date,
     var user: UserData
 ) : Serializable {
+
+//    함수 추가. => 현재 시간 ~ 약속시간 남은 시간에 따라 다른 문구를 리턴.
+
+    fun getFormattedDateTime() :  String {
+
+//        현재 시간:
+        val now = Calendar.getInstance() // 현재 일시
+
+//        약속시간 - 현재시간 : 몇시간?
+
+        val diff = this.datetime.time - now.timeInMillis
+
+//        몇시간 차이인가?
+        val diffHour = diff / 1000 / 60 / 60
+
+        Log.d("시차", diffHour.toString())
+
+        if (diffHour < 1) {
+
+//            몇분 남음
+            val diffMinute = diff / 1000 / 60
+            return "${diffMinute}분 남음"
+
+        }
+        else if (diffHour < 5) {
+            return "${diffHour}시간 남음"
+        }
+        else {
+            val sdf = SimpleDateFormat("M/d a h:mm")
+            return sdf.format(this.datetime)
+        }
+
+
+    }
+
+
 }

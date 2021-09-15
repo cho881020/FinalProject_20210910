@@ -24,14 +24,12 @@ class AppointmentRecyclerAdapter(
         val placeNameTxt = view.findViewById<TextView>(R.id.placeNameTxt)
         val viewPlaceMapBtn = view.findViewById<ImageView>(R.id.viewPlaceMapBtn)
 
-        val dateTimeSDF = SimpleDateFormat("M/d a h:mm")
-
         fun bind( data: AppointmentData ) {
             titleTxt.text = data.title
 
 //            약속일시 : Date형태로 파싱됨. => String으로 가공. SimpleDateFormat 사용.
 
-            dateTimeTxt.text = dateTimeSDF.format( data.datetime )
+            dateTimeTxt.text = data.getFormattedDateTime()
             placeNameTxt.text = data.placeName
         }
 
