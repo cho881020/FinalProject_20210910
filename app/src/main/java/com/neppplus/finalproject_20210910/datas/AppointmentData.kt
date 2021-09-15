@@ -12,6 +12,12 @@ class AppointmentData(
     var userId: Int,
     var title: String,
     var datetime: Date, // 일단 String -> 파싱 기능 수정 => Date형태로 받자. (Calendar와 엮어서 사용)
+    @SerializedName("start_place")
+    var startPlace: String,
+    @SerializedName("start_latitude")
+    var startLatitude: Double,
+    @SerializedName("start_longitude")
+    var startLongitude: Double,
     @SerializedName("place")
     var placeName: String,
     var latitude: Double,
