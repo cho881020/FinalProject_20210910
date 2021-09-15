@@ -366,7 +366,27 @@ class EditAppoinmentActivity : BaseActivity() {
                     for (i  in  0 until subPathArr.length()) {
 
                         val subPathObj = subPathArr.getJSONObject(i)
-                        Log.d("길찾기응답", subPathObj.toString())
+
+                        if (!subPathObj.isNull("passStopList")) {
+
+//                            정거장 목록을 불러내보자.
+                            val passStopListObj = subPathObj.getJSONObject("passStopList")
+                            val stationsArr = passStopListObj.getJSONArray("stations")
+                            for ( j  in  0 until  stationsArr.length() ) {
+
+                                val stationObj = stationsArr.getJSONObject(j)
+                                Log.d("길찾기응답", stationObj.toString())
+
+                                val latLng = LatLng(stationObj.getString("y").toDouble(), stationObj.getString("x").toDouble())
+
+//                                points ArrayList에 경유지로 추가.
+                                points.add(latLng)
+
+                            }
+
+                        }
+
+
 
                     }
 
