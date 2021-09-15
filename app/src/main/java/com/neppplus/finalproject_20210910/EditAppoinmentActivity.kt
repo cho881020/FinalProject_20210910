@@ -14,6 +14,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.NaverMap
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
@@ -56,6 +57,13 @@ class EditAppoinmentActivity : BaseActivity() {
 
 //    화면에 그려질 출발~도착지 연결 선
     val mPath = PathOverlay()
+
+
+//    선택된 도착지를 보여줄 마커 하나만 생성.
+    val selectedPointMarker = Marker()
+
+//    도착지에 보여줄 정보창
+    val mInfoWindow = InfoWindow()
 
 //    네이버 지도를 멤버변수로 담자.
     var mNaverMap : NaverMap? = null
@@ -296,8 +304,6 @@ class EditAppoinmentActivity : BaseActivity() {
             uiSettings.isScaleBarEnabled = false
 
 
-//            선택된 위치를 보여줄 마커 하나만 생성.
-            val selectedPointMarker = Marker()
             selectedPointMarker.icon = OverlayImage.fromResource(R.drawable.red_marker)
 
             it.setOnMapClickListener { pointF, latLng ->
@@ -367,6 +373,16 @@ class EditAppoinmentActivity : BaseActivity() {
                     val totalTime = infoObj.getInt("totalTime")
 
                     Log.d("총소요시간", totalTime.toString())
+
+//                    멤버변수로 만들어둔 정보창의 내용 설정, 열어주기
+                    mInfoWindow.adapter = object : InfoWindow.DefaultTextAdapter(mContext) {
+                        override fun getText(p0: InfoWindow): CharSequence {
+                            return "${totalTime}분 소요 예정"
+                        }
+
+                    }
+                    mInfoWindow.open(selectedPointMarker)
+
 
 
 //                    경유지들 좌표를 목록에 추가 (결과가 어떻게 되어있는지 분석. Parsing)
