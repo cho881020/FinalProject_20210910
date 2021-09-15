@@ -6,10 +6,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import com.neppplus.finalproject_20210910.databinding.ActivityViewMyPlaceListBinding
+import com.neppplus.finalproject_20210910.datas.BasicResponse
+import com.neppplus.finalproject_20210910.datas.PlaceData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ViewMyPlaceListActivity : BaseActivity() {
 
     lateinit var binding: ActivityViewMyPlaceListBinding
+
+    val mMyPlaceList = ArrayList<PlaceData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,4 +43,37 @@ class ViewMyPlaceListActivity : BaseActivity() {
         addBtn.visibility = View.VISIBLE
 
     }
+
+    override fun onResume() {
+        super.onResume()
+        getMyPlaceListFromServer()
+    }
+
+    fun getMyPlaceListFromServer() {
+
+        apiService.getRequestMyPlaceList().enqueue(object : Callback<BasicResponse> {
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+
+                if (response.isSuccessful) {
+
+                    val basicResponse = response.body()!!
+
+                    mMyPlaceList.clear()
+
+                    mMyPlaceList.addAll( basicResponse.data.places )
+
+
+                }
+
+            }
+
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+            }
+
+
+        })
+
+    }
+
 }

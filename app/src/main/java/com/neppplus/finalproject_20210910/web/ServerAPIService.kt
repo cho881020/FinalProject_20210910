@@ -63,4 +63,9 @@ interface ServerAPIService {
         @Field("is_primary") isPrimary: Boolean) : Call<BasicResponse>
 
 
+    @GET("/user/place")
+    fun getRequestMyPlaceList() : Call<BasicResponse>
+
+
+
 }
