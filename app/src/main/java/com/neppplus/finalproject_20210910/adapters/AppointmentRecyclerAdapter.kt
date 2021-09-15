@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.neppplus.finalproject_20210910.R
 import com.neppplus.finalproject_20210910.ViewMapActivity
 import com.neppplus.finalproject_20210910.datas.AppointmentData
+import java.text.SimpleDateFormat
 
 class AppointmentRecyclerAdapter(
     val mContext: Context,
@@ -23,9 +24,14 @@ class AppointmentRecyclerAdapter(
         val placeNameTxt = view.findViewById<TextView>(R.id.placeNameTxt)
         val viewPlaceMapBtn = view.findViewById<ImageView>(R.id.viewPlaceMapBtn)
 
+        val dateTimeSDF = SimpleDateFormat("M/d a h:mm")
+
         fun bind( data: AppointmentData ) {
             titleTxt.text = data.title
-            dateTimeTxt.text = data.datetime
+
+//            약속일시 : Date형태로 파싱됨. => String으로 가공. SimpleDateFormat 사용.
+
+            dateTimeTxt.text = dateTimeSDF.format( data.datetime )
             placeNameTxt.text = data.placeName
         }
 
