@@ -14,6 +14,7 @@
         android:textSize="17sp" />
 
     <TextView
+        android:id="@+id/isPrimaryTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="기본"
@@ -29,6 +30,7 @@
         android:layout_weight="1" />
 
     <ImageView
+        android:id="@+id/viewPlaceMapBtn"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@drawable/yellow_marker"
