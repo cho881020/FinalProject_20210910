@@ -31,6 +31,7 @@ class ViewMyPlaceListActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+
         addBtn.setOnClickListener {
 
             val myIntent = Intent(mContext, EditMyPlaceActivity::class.java)
