@@ -21,6 +21,10 @@ import com.neppplus.finalproject_20210910.adapters.StartPlaceSpinnerAdapter
 import com.neppplus.finalproject_20210910.databinding.ActivityEditAppoinmentBinding
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.datas.PlaceData
+import com.odsay.odsayandroidsdk.API
+import com.odsay.odsayandroidsdk.ODsayData
+import com.odsay.odsayandroidsdk.ODsayService
+import com.odsay.odsayandroidsdk.OnResultCallbackListener
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -335,16 +339,47 @@ class EditAppoinmentActivity : BaseActivity() {
 //        좌표 목록을 ArrayList로 담자.
         val points = ArrayList<LatLng>()
 
+//        출발지점의 좌표를 선의 출발점으로 설정.
         points.add(  LatLng(mSelectedStartPlace.latitude,  mSelectedStartPlace.longitude)  )
-        points.add(  LatLng(mSelectedLat, mSelectedLng)  )
+
+//        대중교통 길찾기 API => 들리는 좌표들을 제공 => 목록을 담아주자.
+        val odsay = ODsayService.init(mContext, "UqivPrD/2a9zX6LAlrVto3HvYEXgv/BCT+0xVMjCVCg")
+
+        odsay.requestSearchPubTransPath(
+            mSelectedStartPlace.longitude.toString(),
+            mSelectedStartPlace.latitude.toString(),
+            mSelectedLng.toString(),
+            mSelectedLat.toString(),
+            null,
+        null,
+        null,
+            object : OnResultCallbackListener {
+                override fun onSuccess(p0: ODsayData?, p1: API?) {
+
+//                    경유지들 좌표를 목록에 추가
+
+//                    최종 목적지 좌표도 추가
+
+//        최종 목적지를 추가.
+                    points.add(  LatLng(mSelectedLat, mSelectedLng)  )
 
 //        매번 새로 PolyLine을 그리면, 선이 하나씩 추가됨.
 //        멤버변수로 선을 하나 지정해두고, 위치값만 변경하면서 사용.
 //        val polyline = PolylineOverlay()
 
-        mPath.coords = points
+                    mPath.coords = points
 
-        mPath.map = naverMap
+                    mPath.map = naverMap
+
+
+                }
+
+                override fun onError(p0: Int, p1: String?, p2: API?) {
+
+                }
+
+            })
+
 
 
     }
