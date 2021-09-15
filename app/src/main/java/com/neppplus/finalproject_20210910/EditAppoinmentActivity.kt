@@ -54,6 +54,9 @@ class EditAppoinmentActivity : BaseActivity() {
 //    화면에 그려질 출발~도착지 연결 선
     val mPolyLine = PolylineOverlay()
 
+//    네이버 지도를 멤버변수로 담자.
+    var mNaverMap : NaverMap? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +78,10 @@ class EditAppoinmentActivity : BaseActivity() {
                 mSelectedStartPlace = mStartPlaceList[position]
 
                 Log.d("출발지위경도",  "${mSelectedStartPlace.latitude},  ${mSelectedStartPlace.longitude}")
+
+                mNaverMap?.let {
+                    drawStartPlaceToDestination(it)
+                }
 
 
             }
@@ -265,6 +272,9 @@ class EditAppoinmentActivity : BaseActivity() {
 
         mapFragment.getMapAsync {
             Log.d("지도객체-바로할일", it.toString())
+
+//            멤버변수에서 null 이던 네이버지도 변수를 채워넣기.
+            mNaverMap = it
 
 //            학원 좌표를 지도 시작점으로. (예제)
 
