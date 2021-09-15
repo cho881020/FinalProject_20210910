@@ -16,8 +16,10 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
+import com.neppplus.finalproject_20210910.adapters.StartPlaceSpinnerAdapter
 import com.neppplus.finalproject_20210910.databinding.ActivityEditAppoinmentBinding
 import com.neppplus.finalproject_20210910.datas.BasicResponse
+import com.neppplus.finalproject_20210910.datas.PlaceData
 import com.neppplus.finalproject_20210910.utils.ContextUtil
 import net.daum.mf.map.api.MapView
 
@@ -26,6 +28,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EditAppoinmentActivity : BaseActivity() {
 
@@ -37,6 +40,11 @@ class EditAppoinmentActivity : BaseActivity() {
 //    선택한 약속장소를 저장할 변수.
     var mSelectedLat = 0.0 // Double을 넣을것임.
     var mSelectedLng = 0.0 // Double
+
+//    출발지 목록을 담아둘 리스트.
+    val mStartPlaceList = ArrayList<PlaceData>()
+    lateinit var mSpinnerAdapter : StartPlaceSpinnerAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -183,6 +191,31 @@ class EditAppoinmentActivity : BaseActivity() {
     override fun setValues() {
 
         titleTxt.text = "약속 잡기"
+
+        mSpinnerAdapter = StartPlaceSpinnerAdapter(mContext, R.layout.my_place_list_item, mStartPlaceList)
+        binding.startPlaceSpinner.adapter = mSpinnerAdapter
+
+//        내 출발장소 목록 담아주기
+        apiService.getRequestMyPlaceList().enqueue(object : Callback<BasicResponse> {
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+                if (response.isSuccessful) {
+
+                    val basicResponse = response.body()!!
+
+                    mStartPlaceList.clear()
+                    mStartPlaceList.addAll(basicResponse.data.places)
+
+                    mSpinnerAdapter.notifyDataSetChanged()
+
+                }
+            }
+
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+            }
+
+        })
+
 
 //        카카오 지도 띄워보기
 
