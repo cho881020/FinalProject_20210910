@@ -1,7 +1,6 @@
 package com.neppplus.finalproject_20210910.adapters
 
 import android.content.Context
-import android.service.autofill.UserData
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.neppplus.finalproject_20210910.R
+import com.neppplus.finalproject_20210910.datas.UserData
 
 class SearchUserRecyclerAdapter(
     val mContext: Context,

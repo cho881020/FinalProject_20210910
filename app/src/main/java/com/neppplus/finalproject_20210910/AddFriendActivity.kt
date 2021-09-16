@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.neppplus.finalproject_20210910.adapters.SearchUserRecyclerAdapter
 import com.neppplus.finalproject_20210910.databinding.ActivityAddFriendBinding
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.datas.UserData
@@ -16,6 +18,8 @@ class AddFriendActivity : BaseActivity() {
     lateinit var binding: ActivityAddFriendBinding
 
     val mSearchedUserList = ArrayList<UserData>()
+
+    lateinit var mSearchedUserAdapter :  SearchUserRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +53,7 @@ class AddFriendActivity : BaseActivity() {
 //                        기존의 검색결과 삭제.
                         mSearchedUserList.clear()
                         mSearchedUserList.addAll( basicResponse.data.users )
+                        mSearchedUserAdapter.notifyDataSetChanged()
                     }
                 }
 
@@ -64,6 +69,8 @@ class AddFriendActivity : BaseActivity() {
     }
 
     override fun setValues() {
-
+        mSearchedUserAdapter = SearchUserRecyclerAdapter(mContext, mSearchedUserList)
+        binding.searchUserRecyclerView.adapter = mSearchedUserAdapter
+        binding.searchUserRecyclerView.layoutManager = LinearLayoutManager(mContext)
     }
 }
