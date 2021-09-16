@@ -227,17 +227,16 @@ class MySettingActivity : BaseActivity() {
 //            실제로 이미지를 선택한건지?
             if (resultCode == RESULT_OK) {
 
-                Log.d("프사선택", "실제로 선택까지 완료")
+//                어떤 사진을 골랐는지? 파악해보자.
+//                임시 : 고른 사진을 profileImg에 바로 적용만. (서버전송 X)
 
-//                실제로 담아준 Intent가 있는지? => data가 null이 아닌지?
+//                data?  =>  이전 화면이 넘겨준 intent
+//                data?.data => 선택한 사진이 들어있는 경로 정보 (Uri)
+                val dataUri = data?.data
 
-                data?.let {
-                    Log.d("돌려준사진", it.toString())
-                }
+//                Uri -> 이미지뷰의 사진으로. (Glide)
+                Glide.with(mContext).load(dataUri).into(binding.profileImg)
 
-            }
-            else {
-                Log.d("프사선택", "선택까지는 하지 않음 (취소)")
             }
 
         }
