@@ -44,6 +44,11 @@ class MySettingActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        binding.myFriendsLayout.setOnClickListener {
+            val myIntent = Intent(mContext, ViewMyFriendsListActivity::class.java)
+            startActivity(myIntent)
+        }
+
         binding.logoutLayout.setOnClickListener {
 
             val alert = AlertDialog.Builder(mContext)
