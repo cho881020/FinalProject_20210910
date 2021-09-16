@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.neppplus.finalproject_20210910.R
 import com.neppplus.finalproject_20210910.databinding.FragmentRequestedUserListBinding
 
-class RequestedUserListFragment : Fragment() {
+class RequestedUserListFragment : BaseFragment() {
 
     lateinit var binding:  FragmentRequestedUserListBinding
 
@@ -24,10 +24,18 @@ class RequestedUserListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
+        setupEvents()
+        setValues()
 
     }
 
+    override fun setupEvents() {
+
+    }
+
+    override fun setValues() {
+
+    }
 
 
 }
