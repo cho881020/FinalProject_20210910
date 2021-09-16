@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.neppplus.finalproject_20210910.R
 import com.neppplus.finalproject_20210910.datas.UserData
 
@@ -19,6 +20,25 @@ class SearchUserRecyclerAdapter(
         val profileImg = view.findViewById<ImageView>(R.id.profileImg)
         val nicknameTxt = view.findViewById<TextView>(R.id.nicknameTxt)
         val socialLoginImg = view.findViewById<ImageView>(R.id.socialLoginImg)
+
+        fun bind(context: Context, data: UserData) {
+            Glide.with(context).load(data.profileImgURL).into(profileImg)
+            nicknameTxt.text = data.nickName
+            when (data.provider) {
+                "facebook" -> {
+                    socialLoginImg.visibility = View.VISIBLE
+                    socialLoginImg.setImageResource(R.drawable.facebook_login_icon)
+                }
+                "kakao" -> {
+                    socialLoginImg.visibility = View.VISIBLE
+                    socialLoginImg.setImageResource(R.drawable.kakao_login_icon)
+                }
+                else -> {
+                    socialLoginImg.visibility = View.GONE
+                }
+            }
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -27,7 +47,7 @@ class SearchUserRecyclerAdapter(
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-
+        holder.bind(mContext, mList[position])
     }
 
     override fun getItemCount() = mList.size
