@@ -17,6 +17,7 @@ import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
 import com.neppplus.finalproject_20210910.databinding.ActivityMySettingBinding
 import com.neppplus.finalproject_20210910.datas.BasicResponse
+import com.neppplus.finalproject_20210910.utils.ContextUtil
 import com.neppplus.finalproject_20210910.utils.GlobalData
 import com.neppplus.finalproject_20210910.utils.URIPathHelper
 import okhttp3.MediaType
@@ -42,6 +43,34 @@ class MySettingActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.logoutLayout.setOnClickListener {
+
+            val alert = AlertDialog.Builder(mContext)
+            alert.setMessage("정말 로그아웃 하시겠습니까?")
+            alert.setPositiveButton("확인", DialogInterface.OnClickListener { dialogInterface, i ->
+//            로그아웃 : 기기에 저장된 토큰을 제거.
+                ContextUtil.setToken(mContext, "")
+//            추가작업 : GlobalData 의 로그인사용자 정보도 같이 제거.
+                GlobalData.loginUser = null
+
+//            Splash화면으로 이동.
+                val myIntent = Intent(mContext, SplashActivity::class.java)
+
+//            필요없는 화면들 모두 종료. => MySetting / Main 등등 화면 모두 제거.
+//            FLAG 를 활용해서, 다른 모든 화면 제거.
+                myIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+                startActivity(myIntent)
+
+            })
+            alert.setNegativeButton("취소", null)
+            alert.show()
+
+
+
+        }
+
 
 //        프로필사진 누르면 => 프사 변경의 의미로 활용. => 갤러리로 프사 선택하러 진입.
 //        안드로이드가 제공하는 갤러리 화면 활용. Intent (4) 추가 항목
