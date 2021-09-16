@@ -8,11 +8,19 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.neppplus.finalproject_20210910.AddFriendActivity
 import com.neppplus.finalproject_20210910.R
+import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.datas.UserData
+import com.neppplus.finalproject_20210910.web.ServerAPI
+import com.neppplus.finalproject_20210910.web.ServerAPIService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SearchUserRecyclerAdapter(
     val mContext: Context,
@@ -48,6 +56,25 @@ class SearchUserRecyclerAdapter(
                 val alert = AlertDialog.Builder(context)
                 alert.setMessage("${data.nickName}님을 친구로 추가하겠습니까?")
                 alert.setPositiveButton("확인", DialogInterface.OnClickListener { dialogInterface, i ->
+
+                    (context as AddFriendActivity)
+                        .apiService
+                        .postRequestAddFriend(data.id).enqueue(object : Callback<BasicResponse> {
+                            override fun onResponse(
+                                call: Call<BasicResponse>,
+                                response: Response<BasicResponse>
+                            ) {
+
+                                Toast.makeText(context, "${data.nickName}님에게 친구요청을 보냈습니다.", Toast.LENGTH_SHORT).show()
+                            }
+
+                            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                            }
+
+                        })
+
+
 
                 })
                 alert.setNegativeButton("취소", null)
