@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.neppplus.finalproject_20210910.databinding.ActivityMySettingBinding
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.utils.GlobalData
@@ -161,6 +162,10 @@ class MySettingActivity : BaseActivity() {
             else -> binding.passwordLayout.visibility = View.GONE
         }
 
+
+//        로그인한 사용자는 프로필 사진 경로(URL - String)도 들고 있다. => profileImg에 적용. (Glide)
+
+        Glide.with(mContext).load(GlobalData.loginUser!!.profileImgURL).into(binding.profileImg)
 
     }
 
