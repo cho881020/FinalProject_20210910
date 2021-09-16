@@ -9,6 +9,8 @@ class DataResponse(
 //    장소 목록
     var places: List<PlaceData>,
 //    친구목록
-    var friends: List<UserData>
+    var friends: List<UserData>,
+//    검색된 사용자 목록
+    var users: List<UserData>
     ) {
 }
