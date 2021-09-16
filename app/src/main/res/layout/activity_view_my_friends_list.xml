@@ -8,8 +8,13 @@
         android:orientation="vertical"
         tools:context=".ViewMyFriendsListActivity">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/friendsRecyclerView"
+        <com.google.android.material.tabs.TabLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/friendsTabLayout" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/friendsViewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
