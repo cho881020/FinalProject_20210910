@@ -235,7 +235,10 @@ class MySettingActivity : BaseActivity() {
                 val dataUri = data?.data
 
 //                Uri -> 이미지뷰의 사진으로. (Glide)
-                Glide.with(mContext).load(dataUri).into(binding.profileImg)
+//                Glide.with(mContext).load(dataUri).into(binding.profileImg)
+
+//                API서버에 사진을 전송. => PUT - /user/image 로 API 활용.
+//                파일을 같이 첨부해야한다. => Multipart 형식의 데이터 첨부 활용. (기존 FormData와는 다르다!)
 
             }
 
