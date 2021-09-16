@@ -25,6 +25,9 @@ class MySettingActivity : BaseActivity() {
 
     lateinit var binding: ActivityMySettingBinding
 
+//    프사 가지러 갤러리로 이동
+    val REQ_FOR_GALLERY = 1000
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_my_setting)
@@ -47,6 +50,12 @@ class MySettingActivity : BaseActivity() {
                 override fun onPermissionGranted() {
 //                    권한이 OK 일때.
 //                    갤러리로 사진을 가지러 이동. (추가 작업)
+
+                    val myIntent = Intent()
+                    myIntent.action = Intent.ACTION_GET_CONTENT
+                    myIntent.type = "image/*"
+                    startActivityForResult(Intent.createChooser(myIntent, "프사 선택하기"),  REQ_FOR_GALLERY)
+
                 }
 
                 override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
