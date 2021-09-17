@@ -104,6 +104,17 @@ class EditAppoinmentActivity : BaseActivity() {
             val textView = TextView(mContext)
             textView.text = selectedFriend.nickName
 
+//            만들어낸 텍스트뷰에 이벤트 처리.
+            textView.setOnClickListener {
+
+//                클릭되면 삭제.
+//                1) 레이아웃에서 삭제
+                binding.friendListLayout.removeView(textView)
+//                2) 친구목록에서 삭제.
+                mSelectedFriendsList.remove(selectedFriend)
+
+            }
+
 //            레이아웃에 추가. + 친구목록으로도 추가.
 
             binding.friendListLayout.addView(textView)
