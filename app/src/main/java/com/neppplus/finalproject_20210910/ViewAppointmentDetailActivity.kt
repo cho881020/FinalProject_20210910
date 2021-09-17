@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
@@ -12,11 +13,16 @@ import com.bumptech.glide.Glide
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.MarkerIcons
 import com.neppplus.finalproject_20210910.databinding.ActivityViewAppointmentDetailBinding
 import com.neppplus.finalproject_20210910.datas.AppointmentData
+import com.odsay.odsayandroidsdk.API
+import com.odsay.odsayandroidsdk.ODsayData
+import com.odsay.odsayandroidsdk.ODsayService
+import com.odsay.odsayandroidsdk.OnResultCallbackListener
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
@@ -124,17 +130,7 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
         //          - 출발지 / 도착지 일직선 PathOverlay 그어주기
 
-            val path = PathOverlay()
 
-            val points = ArrayList<LatLng>()
-            points.add(startLatLng)
-
-//            둘 사이에서 -> 실제 경유지들을 추가.
-
-            points.add(dest)
-
-            path.coords = points
-            path.map = naverMap
 
 //             두 좌표의 중간점으로 카메라 이동?
             val centerOfStartAndDest = LatLng(
@@ -156,37 +152,115 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 //          - 대중교통 API 활용 => 1. 도착 예상시간 표시 (infoWindow)
         //          2. 실제 경유지로 PathOverlay 그어주기. => 도전과제. (마지막시간에 따로 풀이)
 
-//            OkHttp -> 주소(URL) / 방식(메쏘드) / 파라미터 조합해서 Request 직접 생성.
+            val infoWindow = InfoWindow()
 
-            val url = HttpUrl.parse("https://api.odsay.com/v1/api/searchPubTransPath")!!.newBuilder()
-            url.addEncodedQueryParameter("SX", mAppointmentData.startLongitude.toString())
-            url.addEncodedQueryParameter("SY", mAppointmentData.startLatitude.toString())
-            url.addEncodedQueryParameter("EX", mAppointmentData.longitude.toString())
-            url.addEncodedQueryParameter("EY", mAppointmentData.latitude.toString())
-            url.addEncodedQueryParameter("apiKey", "UqivPrD/2a9zX6LAlrVto3HvYEXgv/BCT+0xVMjCVCg")
+            val myODsayService = ODsayService.init(mContext, "UqivPrD/2a9zX6LAlrVto3HvYEXgv/BCT+0xVMjCVCg")
 
-            val urlString = url.toString()
-            Log.d("완성된주소", urlString)
+            myODsayService.requestSearchPubTransPath(
+                mAppointmentData.startLongitude.toString(),
+                mAppointmentData.startLatitude.toString(),
+                mAppointmentData.longitude.toString(),
+                mAppointmentData.latitude.toString(),
+                null,
+                null,
+                null,
+                object : OnResultCallbackListener {
+                    override fun onSuccess(p0: ODsayData?, p1: API?) {
 
-            val request = Request.Builder()
-                .url(url.toString())
-                .get()
-                .build()
+                        val jsonObj = p0!!.json
+                        val resultObj = jsonObj.getJSONObject("result")
+                        val pathArr = resultObj.getJSONArray("path")
 
-            val client = OkHttpClient()
 
-            client.newCall(request).enqueue( object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
+                        val firstPath = pathArr.getJSONObject(0)
 
-                }
+//                        출발점 ~ 경유지목록 ~ 도착지를 이어주는 Path 객체를 추가.
+                        val points = ArrayList<LatLng>()
+//                        출발지부터 추가.
+                        points.add(  LatLng(mAppointmentData.startLatitude, mAppointmentData.startLongitude)  )
 
-                override fun onResponse(call: Call, response: Response) {
-                    val bodyString = response.body()!!.string()
-                    val jsonObj = JSONObject(bodyString)
-                    Log.d("서버응답", jsonObj.toString())
-                }
+//                        경유지목록 파싱 -> for문으로 추가.
+                        val subPathArr = firstPath.getJSONArray("subPath")
+                        for (i  in  0 until subPathArr.length()) {
+                            val subPathObj = subPathArr.getJSONObject(i)
+                            Log.d("응답내용", subPathObj.toString())
+                            if (!subPathObj.isNull("passStopList")) {
 
-            })
+                                val passStopListObj = subPathObj.getJSONObject("passStopList")
+                                val stationsArr = passStopListObj.getJSONArray("stations")
+                                for ( j  in  0 until  stationsArr.length() ) {
+                                    val stationObj = stationsArr.getJSONObject(j)
+                                    Log.d("정거장목록", stationObj.toString())
+
+//                                    각 정거장의 GPS좌표 추출 -> 네이버지도의 위치객체로 변환.
+                                    val latLng = LatLng(stationObj.getString("y").toDouble(), stationObj.getString("x").toDouble())
+
+//                                    지도의 선을 긋는 좌표 목록에 추가.
+                                    points.add(latLng)
+
+                                }
+
+                            }
+                        }
+
+
+//                        모든 정거장 추가 => 실제 목적지 좌표 추가.
+                        points.add( LatLng(mAppointmentData.latitude, mAppointmentData.longitude) )
+
+
+//                        모든 경로 설정 끝. => 네이버 지도에 선으로 이어주자.
+                        val path = PathOverlay()
+                        path.coords = points
+                        path.map =  naverMap
+
+
+
+                        val infoObj = firstPath.getJSONObject("info")
+
+                        val totalTime = infoObj.getInt("totalTime")
+
+                        Log.d("총 소요시간", totalTime.toString())
+
+                        val hour = totalTime / 60
+                        val minute = totalTime % 60
+
+                        Log.d("예상시간", hour.toString())
+                        Log.d("예상분", minute.toString())
+
+                        infoWindow.adapter = object : InfoWindow.DefaultViewAdapter(mContext) {
+                            override fun getContentView(p0: InfoWindow): View {
+
+                                val myView = LayoutInflater.from(mContext).inflate(R.layout.my_custom_info_window, null)
+
+                                val placeNameTxt = myView.findViewById<TextView>(R.id.placeNameTxt)
+                                val arrivalTimeTxt = myView.findViewById<TextView>(R.id.arrivalTimeTxt)
+
+                                placeNameTxt.text = mAppointmentData.placeName
+
+                                if (hour == 0) {
+                                    arrivalTimeTxt.text = "${minute}분 소요 예정"
+                                }
+                                else {
+                                    arrivalTimeTxt.text = "${hour}시간 ${minute}분 소요 예정"
+                                }
+
+                                return myView
+                            }
+
+                        }
+
+                        infoWindow.open(marker)
+
+                    }
+
+                    override fun onError(p0: Int, p1: String?, p2: API?) {
+//                                실패시 예상시간 받아오지 못했다는 안내.
+
+                        Log.d("예상시간실패", p1!!)
+                    }
+
+                })
+
 
         }
 
