@@ -3,8 +3,10 @@ package com.neppplus.finalproject_20210910
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.viewpager.widget.ViewPager
 import com.neppplus.finalproject_20210910.adapters.FriendPagerAdapter
 import com.neppplus.finalproject_20210910.databinding.ActivityViewMyFriendsListBinding
 
@@ -22,6 +24,7 @@ class ViewMyFriendsListActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
 
         addBtn.setOnClickListener {
             val myIntent = Intent(mContext, AddFriendActivity::class.java)
