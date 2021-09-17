@@ -37,7 +37,21 @@ class RequestUserRecyclerAdapter(
 
         fun bind(context: Context, data: UserData) {
 
-
+            Glide.with(context).load(data.profileImgURL).into(profileImg)
+            nicknameTxt.text = data.nickName
+            when (data.provider) {
+                "facebook" -> {
+                    socialLoginImg.visibility = View.VISIBLE
+                    socialLoginImg.setImageResource(R.drawable.facebook_login_icon)
+                }
+                "kakao" -> {
+                    socialLoginImg.visibility = View.VISIBLE
+                    socialLoginImg.setImageResource(R.drawable.kakao_login_icon)
+                }
+                else -> {
+                    socialLoginImg.visibility = View.GONE
+                }
+            }
 
         }
 
