@@ -2,6 +2,9 @@ package com.neppplus.finalproject_20210910
 
 import android.Manifest
 import android.graphics.Color
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -56,6 +59,40 @@ class ViewAppointmentDetailActivity : BaseActivity() {
             val pl = object : PermissionListener {
                 override fun onPermissionGranted() {
 //                    실제 위치 물어보기 (안드로이드 폰에게)
+
+//                    위치관리자부터 가져오자.
+                    val locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
+
+                    locationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        0L,
+                        0f,
+                        object : LocationListener {
+                            override fun onLocationChanged(p0: Location) {
+
+                                Log.d("위도", p0.latitude.toString())
+                                Log.d("경도", p0.longitude.toString())
+
+                            }
+
+                            override fun onStatusChanged(
+                                provider: String?,
+                                status: Int,
+                                extras: Bundle?
+                            ) {
+
+                            }
+
+                            override fun onProviderEnabled(provider: String) {
+
+                            }
+
+                            override fun onProviderDisabled(provider: String) {
+
+                            }
+
+                        })
+
                 }
 
                 override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
