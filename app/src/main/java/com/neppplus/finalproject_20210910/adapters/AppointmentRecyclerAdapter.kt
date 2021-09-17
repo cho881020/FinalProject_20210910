@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.neppplus.finalproject_20210910.R
+import com.neppplus.finalproject_20210910.ViewAppointmentDetailActivity
 import com.neppplus.finalproject_20210910.ViewMapActivity
 import com.neppplus.finalproject_20210910.datas.AppointmentData
 import java.text.SimpleDateFormat
@@ -23,6 +25,7 @@ class AppointmentRecyclerAdapter(
         val dateTimeTxt = view.findViewById<TextView>(R.id.dateTimeTxt)
         val placeNameTxt = view.findViewById<TextView>(R.id.placeNameTxt)
         val viewPlaceMapBtn = view.findViewById<ImageView>(R.id.viewPlaceMapBtn)
+        val rootLayout = view.findViewById<LinearLayout>(R.id.rootLayout)
 
         fun bind( context: Context, data: AppointmentData ) {
             titleTxt.text = data.title
@@ -39,6 +42,14 @@ class AppointmentRecyclerAdapter(
                 myIntent.putExtra("appointment", data)
                 context.startActivity(myIntent)
             }
+
+            rootLayout.setOnClickListener {
+                val myIntent = Intent(context, ViewAppointmentDetailActivity::class.java)
+                myIntent.putExtra("appointment",  data)
+                context.startActivity(myIntent)
+            }
+
+
 
         }
 
