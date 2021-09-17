@@ -1,5 +1,6 @@
 package com.neppplus.finalproject_20210910
 
+import android.Manifest
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,8 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
@@ -42,6 +46,31 @@ class ViewAppointmentDetailActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.arrivalBtn.setOnClickListener {
+
+//            내 위치를 파악. (현재 위치 위도/경도 추출)
+
+//            위치를 받아오 될지 권한부터 물어보자.
+
+            val pl = object : PermissionListener {
+                override fun onPermissionGranted() {
+//                    실제 위치 물어보기 (안드로이드 폰에게)
+                }
+
+                override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                    Toast.makeText(mContext, "현재 위치 정보를 파악해야 약속 도착 인증이 가능합니다.", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+            }
+
+            TedPermission.create()
+                .setPermissionListener(pl)
+                .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
+                .check()
+
+        }
 
     }
 
