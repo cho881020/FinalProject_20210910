@@ -18,10 +18,12 @@ import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
+import com.neppplus.finalproject_20210910.adapters.MyFriendSpinnerAdapter
 import com.neppplus.finalproject_20210910.adapters.StartPlaceSpinnerAdapter
 import com.neppplus.finalproject_20210910.databinding.ActivityEditAppoinmentBinding
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.datas.PlaceData
+import com.neppplus.finalproject_20210910.datas.UserData
 import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
 import com.odsay.odsayandroidsdk.ODsayService
@@ -48,6 +50,10 @@ class EditAppoinmentActivity : BaseActivity() {
 //    출발지 목록을 담아둘 리스트.
     val mStartPlaceList = ArrayList<PlaceData>()
     lateinit var mSpinnerAdapter : StartPlaceSpinnerAdapter
+
+//    내 친구 목록을 담아둘 리스트.
+    val mMyFriendsList = ArrayList<UserData>()
+    lateinit var mFriendSpinnerAdapter :  MyFriendSpinnerAdapter
 
 //    선택된 출발지를 담아줄 변수.
     lateinit var mSelectedStartPlace: PlaceData
@@ -257,6 +263,26 @@ class EditAppoinmentActivity : BaseActivity() {
     override fun setValues() {
 
         titleTxt.text = "약속 잡기"
+
+        mFriendSpinnerAdapter = MyFriendSpinnerAdapter(mContext, R.layout.friend_list_item, mMyFriendsList)
+        binding.myFriendsSpinner.adapter = mFriendSpinnerAdapter
+
+//        내 친구 목록 담아주기
+        apiService.getRequestFriendList("my").enqueue(object : Callback<BasicResponse> {
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+                if (response.isSuccessful) {
+                    mMyFriendsList.clear()
+                    mMyFriendsList.addAll(response.body()!!.data.friends)
+                    mFriendSpinnerAdapter.notifyDataSetChanged()
+                }
+            }
+
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+            }
+
+        })
+
 
         mSpinnerAdapter = StartPlaceSpinnerAdapter(mContext, R.layout.my_place_list_item, mStartPlaceList)
         binding.startPlaceSpinner.adapter = mSpinnerAdapter
