@@ -107,8 +107,8 @@ class ViewAppointmentDetailActivity : BaseActivity() {
             marker.map = naverMap
 
 //          - 카메라 이동 => 도착지 좌표로 카메라 이동.
-            val cameraUpdate = CameraUpdate.scrollTo(dest)
-            naverMap.moveCamera(cameraUpdate)
+//            val cameraUpdate = CameraUpdate.scrollTo(dest)
+//            naverMap.moveCamera(cameraUpdate)
 
 
         //          - 출발지 마커 찍기
@@ -132,6 +132,23 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
             path.coords = points
             path.map = naverMap
+
+//             두 좌표의 중간점으로 카메라 이동?
+            val centerOfStartAndDest = LatLng(
+                (mAppointmentData.startLatitude + mAppointmentData.latitude)/2,
+                (mAppointmentData.startLongitude + mAppointmentData.longitude)/2
+            )
+            val cameraUpdate = CameraUpdate.scrollTo(centerOfStartAndDest)
+            naverMap.moveCamera(cameraUpdate)
+
+//            거리에 따른 줌 레벨 변경 (도전과제)
+
+            val zoomLevel = 11.0   // 두 좌표의 직선거리에 따라 어느 줌 레벨이 적당한지 계산해줘야함.
+            naverMap.moveCamera(  CameraUpdate.zoomTo(zoomLevel)  )
+
+
+
+
 
 //          - 대중교통 API 활용 => 1. 도착 예상시간 표시 (infoWindow)
         //          2. 실제 경유지로 PathOverlay 그어주기. => 도전과제. (마지막시간에 따로 풀이)
