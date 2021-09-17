@@ -1,6 +1,7 @@
 package com.neppplus.finalproject_20210910.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,17 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MyFriendsListFragment : BaseFragment() {
+
+    companion object {
+        private var frag : MyFriendsListFragment? = null
+        fun getFrag() : MyFriendsListFragment {
+            if (frag == null) {
+                frag = MyFriendsListFragment()
+            }
+
+            return frag!!
+        }
+    }
 
     lateinit var binding: FragmentMyFriendsListBinding
 
@@ -58,6 +70,8 @@ class MyFriendsListFragment : BaseFragment() {
     }
 
     fun getMyFriendsListFromServer() {
+
+        Log.d("내친구목록", "서버에서 받아오기")
 
         apiService.getRequestFriendList("my").enqueue(object : Callback<BasicResponse> {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {

@@ -1,6 +1,7 @@
 package com.neppplus.finalproject_20210910.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,6 +71,9 @@ class RequestedUserListFragment : BaseFragment() {
     }
 
     fun getRequestUserListFromServer() {
+        
+        Log.d("친구요청목록", "서버에서 받아오기")
+        
         apiService.getRequestFriendList("requested").enqueue(object : Callback<BasicResponse> {
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
