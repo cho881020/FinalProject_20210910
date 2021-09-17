@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.neppplus.finalproject_20210910.R
+import com.neppplus.finalproject_20210910.adapters.RequestUserRecyclerAdapter
 import com.neppplus.finalproject_20210910.databinding.FragmentRequestedUserListBinding
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.datas.UserData
@@ -19,6 +21,8 @@ class RequestedUserListFragment : BaseFragment() {
     lateinit var binding:  FragmentRequestedUserListBinding
 
     val mRequestUserList = ArrayList<UserData>()
+
+    lateinit var mRequestUserAdapter : RequestUserRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +46,10 @@ class RequestedUserListFragment : BaseFragment() {
 
     override fun setValues() {
 
+        mRequestUserAdapter = RequestUserRecyclerAdapter(mContext, mRequestUserList)
+        binding.requestUserRecyclerView.adapter = mRequestUserAdapter
+        binding.requestUserRecyclerView.layoutManager = LinearLayoutManager(mContext)
+
     }
 
     override fun onResume() {
@@ -58,6 +66,8 @@ class RequestedUserListFragment : BaseFragment() {
 
                     mRequestUserList.clear()
                     mRequestUserList.addAll(basicResponse.data.friends)
+
+                    mRequestUserAdapter.notifyDataSetChanged()
                 }
 
             }
