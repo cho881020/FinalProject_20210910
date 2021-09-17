@@ -2,6 +2,7 @@ package com.neppplus.finalproject_20210910.adapters
 
 import android.content.Context
 import android.content.DialogInterface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +53,42 @@ class RequestUserRecyclerAdapter(
                     socialLoginImg.visibility = View.GONE
                 }
             }
+
+//            수락/거절 버튼 둘다 하는 일은 동일. => type에 첨부할 값만 다르다.
+//             버튼에 미리 태그를 달아두고 => 꺼내서 쓰는 동일한 작업.
+
+            val sendOkOrNoToServer = object : View.OnClickListener {
+                override fun onClick(p0: View?) {
+
+                    val okOrNo = p0!!.tag.toString()
+
+//                    어댑터에서 API 서비스 사용법.
+//                    1) 직접 만들자 (!)
+//                    2) 화면 (context) 의 변수를 활용. => 액티비티의 어댑터에서 활용 편함.
+
+                    val apiService = ServerAPI.getRetrofit(context).create(ServerAPIService::class.java)
+
+                    apiService.putRequestSendOkOrNoFriend(data.id, okOrNo).enqueue(object : Callback<BasicResponse> {
+                        override fun onResponse(
+                            call: Call<BasicResponse>,
+                            response: Response<BasicResponse>
+                        ) {
+
+                        }
+
+                        override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                        }
+
+                    })
+
+
+                }
+
+            }
+            acceptBtn.setOnClickListener(sendOkOrNoToServer)
+            refuseBtn.setOnClickListener(sendOkOrNoToServer)
+
 
         }
 

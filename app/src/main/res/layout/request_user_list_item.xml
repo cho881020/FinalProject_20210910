@@ -38,11 +38,13 @@
         android:id="@+id/acceptBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:tag="수락"
         android:text="수락" />
 
     <Button
         android:id="@+id/refuseBtn"
         android:layout_width="wrap_content"
+        android:tag="거절"
         android:layout_marginLeft="5dp"
         android:layout_height="wrap_content"
         android:text="거절" />
