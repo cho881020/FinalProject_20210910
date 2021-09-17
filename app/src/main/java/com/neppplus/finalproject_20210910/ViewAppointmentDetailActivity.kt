@@ -2,7 +2,12 @@ package com.neppplus.finalproject_20210910
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
@@ -50,6 +55,26 @@ class ViewAppointmentDetailActivity : BaseActivity() {
         setNaverMap()
 
 //        4) 응용 1 - 친구목록 => 레이아웃에 xml inflate해서 하나씩 addView
+
+        val inflater = LayoutInflater.from(mContext)
+
+        for (friend  in  mAppointmentData.invitedFriendList) {
+
+            val friendView = inflater.inflate(R.layout.invited_friends_list_item, null)
+
+            val friendProfileImg = friendView.findViewById<ImageView>(R.id.friendProfileImg)
+            val nicknameTxt = friendView.findViewById<TextView>(R.id.nicknameTxt)
+            val statusTxt = friendView.findViewById<TextView>(R.id.statusTxt)
+
+
+            Glide.with(mContext).load(friend.profileImgURL).into(friendProfileImg)
+            nicknameTxt.text  =  friend.nickName
+
+
+            binding.invitedFriendsLayout.addView(friendView)
+
+        }
+
 //        5) 응용 2 - 출발지 좌표도 지도에 설정.
 //          - 마커 찍기 3)과 동일
 //          - 출발지 / 도착지 일직선 PathOverlay 그어주기
