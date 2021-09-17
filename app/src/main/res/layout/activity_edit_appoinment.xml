@@ -101,13 +101,14 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+                <com.nex3z.flowlayout.FlowLayout
                     android:id="@+id/friendListLayout"
+                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                </LinearLayout>
+                </com.nex3z.flowlayout.FlowLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
