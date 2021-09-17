@@ -5,10 +5,7 @@ import android.app.TimePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.DatePicker
-import android.widget.TimePicker
-import android.widget.Toast
+import android.widget.*
 import androidx.databinding.DataBindingUtil
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
@@ -83,6 +80,25 @@ class EditAppoinmentActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+//        친구 추가 버튼 이벤트
+        binding.addFriendToListBtn.setOnClickListener {
+
+//            고른 친구가 누구인지? => 스피너에서 선택되어있는 친구를 찾아내자.
+
+            val selectedFriend =  mMyFriendsList[binding.myFriendsSpinner.selectedItemPosition]
+
+//            텍스트뷰 하나를 코틀린에서 생성
+
+            val textView = TextView(mContext)
+            textView.text = selectedFriend.nickName
+
+//            레이아웃에 추가. + 친구목록으로도 추가.
+
+            binding.friendListLayout.addView(textView)
+
+        }
+
 
 //        지도 영역에 손을 대면 => 스크롤뷰를 정지.
 //        대안 : 지도 위에 겹쳐둔 텍스트뷰에 손을대면 => 스크롤뷰를 정지.

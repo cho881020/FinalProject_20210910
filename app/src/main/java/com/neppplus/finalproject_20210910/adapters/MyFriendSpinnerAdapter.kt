@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.neppplus.finalproject_20210910.R
 import com.neppplus.finalproject_20210910.ViewMapActivity
 import com.neppplus.finalproject_20210910.datas.AppointmentData
@@ -33,7 +34,27 @@ class MyFriendSpinnerAdapter(
 
         val data = mList[position]
 
+        val friendProfileImg = row.findViewById<ImageView>(R.id.friendProfileImg)
+        val nicknameTxt = row.findViewById<TextView>(R.id.nicknameTxt)
+        val socialLoginImg = row.findViewById<ImageView>(R.id.socialLoginImg)
 
+        nicknameTxt.text = data.nickName
+
+        Glide.with(context).load(data.profileImgURL).into(friendProfileImg)
+
+        when (data.provider) {
+            "facebook" -> {
+                socialLoginImg.setImageResource(R.drawable.facebook_login_icon)
+                socialLoginImg.visibility = View.VISIBLE
+            }
+            "kakao" -> {
+                socialLoginImg.setImageResource(R.drawable.kakao_login_icon)
+                socialLoginImg.visibility = View.VISIBLE
+            }
+            else -> {
+                socialLoginImg.visibility = View.GONE
+            }
+        }
 
         return row
     }
