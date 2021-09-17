@@ -293,6 +293,13 @@ class MySettingActivity : BaseActivity() {
                         response: Response<BasicResponse>
                     ) {
 
+                        if (response.isSuccessful) {
+//                            1. 선택한 이미지로 UI 프사 변경
+                            Glide.with(mContext).load(dataUri).into(binding.profileImg)
+//                            2. 토스트로 성공 메세지.
+                            Toast.makeText(mContext, "프로필 사진이 변경되었습니다.", Toast.LENGTH_SHORT).show()
+                        }
+
                     }
 
                     override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
