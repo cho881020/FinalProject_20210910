@@ -17,6 +17,9 @@ import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.MarkerIcons
 import com.neppplus.finalproject_20210910.databinding.ActivityViewAppointmentDetailBinding
 import com.neppplus.finalproject_20210910.datas.AppointmentData
+import okhttp3.*
+import org.json.JSONObject
+import java.io.IOException
 import java.text.SimpleDateFormat
 
 class ViewAppointmentDetailActivity : BaseActivity() {
@@ -152,6 +155,38 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
 //          - 대중교통 API 활용 => 1. 도착 예상시간 표시 (infoWindow)
         //          2. 실제 경유지로 PathOverlay 그어주기. => 도전과제. (마지막시간에 따로 풀이)
+
+//            OkHttp -> 주소(URL) / 방식(메쏘드) / 파라미터 조합해서 Request 직접 생성.
+
+            val url = HttpUrl.parse("https://api.odsay.com/v1/api/searchPubTransPath")!!.newBuilder()
+            url.addEncodedQueryParameter("SX", mAppointmentData.startLongitude.toString())
+            url.addEncodedQueryParameter("SY", mAppointmentData.startLatitude.toString())
+            url.addEncodedQueryParameter("EX", mAppointmentData.longitude.toString())
+            url.addEncodedQueryParameter("EY", mAppointmentData.latitude.toString())
+            url.addEncodedQueryParameter("apiKey", "UqivPrD/2a9zX6LAlrVto3HvYEXgv/BCT+0xVMjCVCg")
+
+            val urlString = url.toString()
+            Log.d("완성된주소", urlString)
+
+            val request = Request.Builder()
+                .url(url.toString())
+                .get()
+                .build()
+
+            val client = OkHttpClient()
+
+            client.newCall(request).enqueue( object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    val bodyString = response.body()!!.string()
+                    val jsonObj = JSONObject(bodyString)
+                    Log.d("서버응답", jsonObj.toString())
+                }
+
+            })
 
         }
 
