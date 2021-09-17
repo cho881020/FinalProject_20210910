@@ -102,6 +102,7 @@ class EditAppoinmentActivity : BaseActivity() {
 //            텍스트뷰 하나를 코틀린에서 생성
 
             val textView = TextView(mContext)
+            textView.setBackgroundResource(R.drawable.selected_friend_box)
             textView.text = selectedFriend.nickName
 
 //            만들어낸 텍스트뷰에 이벤트 처리.
