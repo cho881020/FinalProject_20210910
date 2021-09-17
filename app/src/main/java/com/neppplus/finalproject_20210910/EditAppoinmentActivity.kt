@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.core.view.setPadding
 import androidx.databinding.DataBindingUtil
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
@@ -21,6 +22,7 @@ import com.neppplus.finalproject_20210910.databinding.ActivityEditAppoinmentBind
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.datas.PlaceData
 import com.neppplus.finalproject_20210910.datas.UserData
+import com.neppplus.finalproject_20210910.utils.SizeUtil
 import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
 import com.odsay.odsayandroidsdk.ODsayService
@@ -103,6 +105,9 @@ class EditAppoinmentActivity : BaseActivity() {
 
             val textView = TextView(mContext)
             textView.setBackgroundResource(R.drawable.selected_friend_box)
+
+            textView.setPadding( SizeUtil.dpToPx(mContext, 5f).toInt() )
+
             textView.text = selectedFriend.nickName
 
 //            만들어낸 텍스트뷰에 이벤트 처리.
