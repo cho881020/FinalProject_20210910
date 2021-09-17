@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.neppplus.finalproject_20210910.AddFriendActivity
 import com.neppplus.finalproject_20210910.R
+import com.neppplus.finalproject_20210910.ViewMyFriendsListActivity
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.datas.UserData
+import com.neppplus.finalproject_20210910.fragments.RequestedUserListFragment
 import com.neppplus.finalproject_20210910.web.ServerAPI
 import com.neppplus.finalproject_20210910.web.ServerAPIService
 import retrofit2.Call
@@ -73,6 +75,13 @@ class RequestUserRecyclerAdapter(
                             call: Call<BasicResponse>,
                             response: Response<BasicResponse>
                         ) {
+
+//                            프래그먼트의 요청목록 새로 받아오기 함수를 실행?
+//                            어댑터 -> 액티비티 기능 : context 변수 활용.
+
+//                            어댑터 -> 액티비티 -> ViewPager어댑터 -> 1번째Fragment -> 요청목록Frag로 변신 -> 기능 활용.
+                            ((context as ViewMyFriendsListActivity).mFPA.getItem(1) as RequestedUserListFragment)
+                                .getRequestUserListFromServer()
 
                         }
 
