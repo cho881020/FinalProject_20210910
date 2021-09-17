@@ -1,5 +1,6 @@
 package com.neppplus.finalproject_20210910
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,6 +13,7 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.MapFragment
 import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.util.MarkerIcons
 import com.neppplus.finalproject_20210910.databinding.ActivityViewAppointmentDetailBinding
 import com.neppplus.finalproject_20210910.datas.AppointmentData
 import java.text.SimpleDateFormat
@@ -75,10 +77,7 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
         }
 
-//        5) 응용 2 - 출발지 좌표도 지도에 설정.
-//          - 마커 찍기 3)과 동일
-//          - 출발지 / 도착지 일직선 PathOverlay 그어주기
-//          - 대중교통 API 활용 => 1. 도착 예상시간 표시 (infoWindow),  2. 실제 경유지로 PathOverlay 그어주기.
+//        5) 응용 2 - 출발지 좌표도 지도에 설정.  (setNaverMap 함수)
 
 
     }
@@ -102,11 +101,28 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
             val marker = Marker()
             marker.position = dest
+            marker.icon = MarkerIcons.BLACK
+            marker.iconTintColor = Color.RED
             marker.map = naverMap
 
 //          - 카메라 이동 => 도착지 좌표로 카메라 이동.
             val cameraUpdate = CameraUpdate.scrollTo(dest)
             naverMap.moveCamera(cameraUpdate)
+
+
+        //          - 출발지 마커 찍기
+
+            val startLatLng = LatLng(mAppointmentData.startLatitude, mAppointmentData.startLongitude)
+
+            val startMarker = Marker()
+            startMarker.position = startLatLng
+            startMarker.map = naverMap
+
+        //          - 출발지 / 도착지 일직선 PathOverlay 그어주기
+
+
+//          - 대중교통 API 활용 => 1. 도착 예상시간 표시 (infoWindow)
+        //          2. 실제 경유지로 PathOverlay 그어주기. => 도전과제. (마지막시간에 따로 풀이)
 
         }
 
