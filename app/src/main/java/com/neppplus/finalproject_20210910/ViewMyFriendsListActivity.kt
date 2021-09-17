@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
 import com.neppplus.finalproject_20210910.adapters.FriendPagerAdapter
 import com.neppplus.finalproject_20210910.databinding.ActivityViewMyFriendsListBinding
+import com.neppplus.finalproject_20210910.fragments.MyFriendsListFragment
+import com.neppplus.finalproject_20210910.fragments.RequestedUserListFragment
 
 class ViewMyFriendsListActivity : BaseActivity() {
 
@@ -24,6 +26,40 @@ class ViewMyFriendsListActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.friendsViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+
+//                Log.d("오프셋값", positionOffset.toString())
+
+            }
+
+            override fun onPageSelected(position: Int) {
+
+                Log.d("선택된페이지", position.toString())
+
+//                각 페이지에 맞는 프래그먼트의 새로고침 실행.
+
+                when (position) {
+                    0 -> {
+                        (mFPA.getItem(position) as MyFriendsListFragment).getMyFriendsListFromServer()
+                    }
+                    else -> {
+                        (mFPA.getItem(position) as RequestedUserListFragment).getRequestUserListFromServer()
+                    }
+                }
+
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+
+        })
 
 
         addBtn.setOnClickListener {
