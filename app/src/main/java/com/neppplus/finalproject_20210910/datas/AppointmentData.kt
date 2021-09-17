@@ -24,7 +24,9 @@ class AppointmentData(
     var longitude: Double,
     @SerializedName("created_at")
     var createdAt: Date,
-    var user: UserData
+    var user: UserData,
+    @SerializedName("invited_friends")
+    var invitedFriendList: List<UserData>
 ) : Serializable {
 
 //    함수 추가. => 현재 시간 ~ 약속시간 남은 시간에 따라 다른 문구를 리턴.
