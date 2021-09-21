@@ -1,5 +1,9 @@
 package com.neppplus.finalproject_20210910
 
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,10 +17,13 @@ import com.neppplus.finalproject_20210910.adapters.AppointmentRecyclerAdapter
 import com.neppplus.finalproject_20210910.databinding.ActivityMainBinding
 import com.neppplus.finalproject_20210910.datas.AppointmentData
 import com.neppplus.finalproject_20210910.datas.BasicResponse
+import com.neppplus.finalproject_20210910.service.MyJobService
+import com.neppplus.finalproject_20210910.service.MyJobService.Companion.JOB_A
 import com.neppplus.finalproject_20210910.utils.GlobalData
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.concurrent.TimeUnit
 
 class MainActivity : BaseActivity() {
 
@@ -42,8 +49,19 @@ class MainActivity : BaseActivity() {
     override fun setupEvents() {
 
         binding.addAppoinmentBtn.setOnClickListener {
-            val myIntent = Intent(mContext, EditAppoinmentActivity::class.java)
-            startActivity(myIntent)
+
+            val js = getSystemService(Context.JOB_SCHEDULER_SERVICE) as JobScheduler
+            val serviceComponent = ComponentName(this, MyJobService::class.java)
+            val jobInfo = JobInfo.Builder(JOB_A, serviceComponent)
+                .setMinimumLatency(TimeUnit.MINUTES.toMillis(1))
+                .setOverrideDeadline(TimeUnit.MINUTES.toMillis(3))
+                .build()
+            js.schedule(jobInfo)
+            
+            Log.d("잡스케쥴러 설정", "확인용")
+
+//            val myIntent = Intent(mContext, EditAppoinmentActivity::class.java)
+//            startActivity(myIntent)
         }
 
         profileImg.setOnClickListener {
