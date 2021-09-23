@@ -225,38 +225,53 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
 //        친구 목록등의 내용을 서버에서 새로 받자.
 
+        apiService.getRequestAppointmentDetail(mAppointmentData.id).enqueue(object : Callback<BasicResponse> {
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
+                val basicResponse = response.body()!!
 
-//        받고 나서 API 응답 성공시 친구 목록 새로고침
+                mAppointmentData = basicResponse.data.appointment
 
-        val inflater = LayoutInflater.from(mContext)
+                //        받고 나서 API 응답 성공시 친구 목록 새로고침
 
-        val sdf = SimpleDateFormat("H:mm 도착")
+                val inflater = LayoutInflater.from(mContext)
 
-        for (friend  in  mAppointmentData.invitedFriendList) {
+                val sdf = SimpleDateFormat("H:mm 도착")
 
-            val friendView = inflater.inflate(R.layout.invited_friends_list_item, null)
+                for (friend  in  mAppointmentData.invitedFriendList) {
 
-            val friendProfileImg = friendView.findViewById<ImageView>(R.id.friendProfileImg)
-            val nicknameTxt = friendView.findViewById<TextView>(R.id.nicknameTxt)
-            val statusTxt = friendView.findViewById<TextView>(R.id.statusTxt)
+                    val friendView = inflater.inflate(R.layout.invited_friends_list_item, null)
 
-            if (friend.arrivedAt == null) {
+                    val friendProfileImg = friendView.findViewById<ImageView>(R.id.friendProfileImg)
+                    val nicknameTxt = friendView.findViewById<TextView>(R.id.nicknameTxt)
+                    val statusTxt = friendView.findViewById<TextView>(R.id.statusTxt)
+
+                    if (friend.arrivedAt == null) {
 //                아직 도착 X
-                statusTxt.text = "도착 전"
-            }
-            else {
+                        statusTxt.text = "도착 전"
+                    }
+                    else {
 //                도착 시간 OK
-                statusTxt.text = sdf.format(friend.arrivedAt!!)
+                        statusTxt.text = sdf.format(friend.arrivedAt!!)
+                    }
+
+                    Glide.with(mContext).load(friend.profileImgURL).into(friendProfileImg)
+                    nicknameTxt.text  =  friend.nickName
+
+
+                    binding.invitedFriendsLayout.addView(friendView)
+
+                }
+
+
             }
 
-            Glide.with(mContext).load(friend.profileImgURL).into(friendProfileImg)
-            nicknameTxt.text  =  friend.nickName
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
+            }
 
-            binding.invitedFriendsLayout.addView(friendView)
+        })
 
-        }
 
     }
 
