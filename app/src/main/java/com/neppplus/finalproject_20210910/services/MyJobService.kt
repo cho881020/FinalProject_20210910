@@ -8,6 +8,7 @@ import android.content.Intent
 import android.util.Log
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.receivers.AlarmReceiver
+import com.neppplus.finalproject_20210910.utils.ContextUtil
 import com.neppplus.finalproject_20210910.utils.GlobalData
 import com.neppplus.finalproject_20210910.web.ServerAPI
 import com.neppplus.finalproject_20210910.web.ServerAPIService
@@ -89,7 +90,7 @@ class MyJobService : JobService() {
 
                                 val now = Calendar.getInstance()
                                 appointmentData.datetime.time += now.timeZone.rawOffset
-                                val alarmTime = appointmentData.datetime.time - totalTime*60*1000 - GlobalData.loginUser!!.readyMinute * 60 * 1000
+                                val alarmTime = appointmentData.datetime.time - totalTime*60*1000 - ContextUtil.getMyReadyMinute(applicationContext) * 60 * 1000
                                 setAlarmByMilliSecond(alarmTime)
 
 

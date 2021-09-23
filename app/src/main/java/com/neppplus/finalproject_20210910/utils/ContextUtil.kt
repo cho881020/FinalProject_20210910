@@ -14,6 +14,7 @@ class ContextUtil {
 
         //        토큰
         val TOKEN = "TOKEN"
+        val MY_READY_MINUTE = "MY_READY_MINUTE"
 
 //        토큰 저장 / 조회
 
@@ -26,6 +27,18 @@ class ContextUtil {
 
             val pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
             return pref.getString(TOKEN, "")!!
+
+        }
+
+        fun setMyReadyMinute(context: Context, minute: Int) {
+            val pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+            pref.edit().putInt(MY_READY_MINUTE, minute).apply()
+        }
+
+        fun getMyReadyMinute(context: Context) : Int {
+
+            val pref = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
+            return pref.getInt(MY_READY_MINUTE, 0)
 
         }
 
