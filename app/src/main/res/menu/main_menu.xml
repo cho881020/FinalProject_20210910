@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/myAppointments"
+        android:icon="@drawable/calendar_icon"
+        android:title="내 약속" />
+
+    <item
+        android:id="@+id/invitedAppointments"
+        android:icon="@drawable/invite_icon"
+        android:title="초대받은" />
+
+    <item
+        android:id="@+id/settings"
+        android:icon="@drawable/setting_icon"
+        android:title="설정" />
+
+</menu>
