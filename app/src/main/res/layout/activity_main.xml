@@ -9,23 +9,12 @@
         tools:context=".MainActivity">
 
         <FrameLayout
+            android:id="@+id/fragFrameLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/appointmentRecyclerView" />
 
-            <Button
-                android:id="@+id/addAppoinmentBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:text="약속 등록하기" />
 
         </FrameLayout>
 
