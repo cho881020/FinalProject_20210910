@@ -114,7 +114,15 @@ class ViewAppointmentDetailActivity : BaseActivity() {
                                         ) {
                                             if (response.isSuccessful) {
 
+//                                              응답이 성공적으로 돌아오면 => 서버에 안보내기.
+                                                needLocationSendServer = false
 
+                                                Toast.makeText(
+                                                    mContext,
+                                                    "약속 인증에 성공했습니다.",
+                                                    Toast.LENGTH_SHORT
+                                                )
+                                                    .show()
 
                                             }
                                             else {
@@ -140,8 +148,7 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
                                     })
 
-//                                    응답이 성공적으로 돌아오면 => 서버에 안보내기.
-                                    needLocationSendServer = false
+
 
                                 }
 
