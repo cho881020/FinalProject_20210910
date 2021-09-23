@@ -2,12 +2,17 @@ package com.neppplus.finalproject_20210910.receivers
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.util.Log
+import androidx.core.app.NotificationCompat
+import com.neppplus.finalproject_20210910.MainActivity
+import com.neppplus.finalproject_20210910.R
+import com.neppplus.finalproject_20210910.SplashActivity
 
 class AlarmReceiver : BroadcastReceiver() {
 
@@ -26,8 +31,36 @@ class AlarmReceiver : BroadcastReceiver() {
 
 //        알림 - Oreo버젼 이후로는 채널을 설정해야함. 그 이전 버젼에선 하면 안됨.
         createNotificationChannel()
+
+//        채널설정이 끝났다 => 실제 알림 울릴 준비 OK. 실제로 울리자.
+        deliverNotification(context)
         
     }
+
+    fun deliverNotification(context: Context) {
+
+//        알림을 누르면 어느화면으로 갈건지?
+        val contentIntent = Intent(context, MainActivity::class.java)
+
+//        실제로 알림이 눌릴때까지 대기하는 Intent.
+        val pendingIntent = PendingIntent.getActivity(context, ALARM_ID, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+//        알림에 대한 정보 설정.
+        val notiBuilder = NotificationCompat.Builder(context, PRIMARY_CHANNEL_ID)
+            .setSmallIcon(R.mipmap.ic_launcher)  // mipmap이 아니면 일부폰에서 앱이 죽음. 모양을 바꾸려면 투명 배경 활용.
+            .setContentTitle("테스트 알람")
+            .setContentText("알림이 울립니다.") // 메세지 개념으로 생각.
+            .setContentIntent(pendingIntent)  // 대기 Intent 사용. => 그 안에 contentIntent도 같이  첨부.
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
+            .setAutoCancel(true)
+            .setDefaults(NotificationCompat.DEFAULT_ALL) // 기본세팅 -> 알림 소리, 진동 패턴 등 커스터마이징 가능.
+
+//        만들어진 정보를 종합해서 실제로 알림 발생.
+        mNotificationManager.notify(ALARM_ID, notiBuilder.build())
+
+    }
+
+
 
     fun createNotificationChannel() {
 //        폰에 깔린 OS가 오레오버젼 이상인가?
