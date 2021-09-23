@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/myAppointmentsRecyclerView"
+            android:id="@+id/appointmentRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-
-    </LinearLayout>
+        <Button
+            android:id="@+id/addAppoinmentBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="약속 등록하기" />
+    </FrameLayout>
 </layout>

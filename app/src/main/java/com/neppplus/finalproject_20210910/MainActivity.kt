@@ -67,7 +67,7 @@ class MainActivity : BaseActivity() {
 
 
 //        상속받은, 액션바에 있는 프로필버튼 보여주기.
-        profileImg.visibility = View.VISIBLE
+//        profileImg.visibility = View.VISIBLE
 
 //        메인화면의 화면 제목 변경
         titleTxt.text = "메인 화면"
