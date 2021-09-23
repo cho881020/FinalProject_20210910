@@ -2,6 +2,9 @@ package com.neppplus.finalproject_20210910
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
+import android.content.ComponentName
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -22,6 +25,7 @@ import com.neppplus.finalproject_20210910.databinding.ActivityEditAppoinmentBind
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.datas.PlaceData
 import com.neppplus.finalproject_20210910.datas.UserData
+import com.neppplus.finalproject_20210910.services.MyJobService
 import com.neppplus.finalproject_20210910.utils.SizeUtil
 import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
@@ -33,6 +37,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class EditAppoinmentActivity : BaseActivity() {
@@ -326,6 +331,28 @@ class EditAppoinmentActivity : BaseActivity() {
                 ) {
 
                     if (response.isSuccessful) {
+
+//                        임시 : 1분 후에 교통 상황 파악하는 작업 예약. => JobScheduler 클래스.
+//                        실제 : 약속시간 2~3시간 전에 교통 상황 파악 작업 예약.
+
+//                        예약을 걸도록 도와주는 도구.
+                        val js = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+
+//                        실제로 예약시간이 되면 "어떤일을 할지" 적어둔 클래스 필요.
+//                        백그라운드 작업 가정 => 서비스 클래스 작업 필요.
+                        val serviceComponent = ComponentName(mContext, MyJobService::class.java)
+
+//                        "언제?" 어떤일을? 모아주는 클래스.
+                        val jobInfo = JobInfo.Builder(MyJobService.JOB_TIME_SET, serviceComponent)
+                            .setMinimumLatency(TimeUnit.MINUTES.toMillis(1)) // 얼마 후에 실행할건지? 임시: 1분, 약속시간 기준으로 => 그게 몇분 후 or 몇시간 후 인지 계산 필요.
+                            .setOverrideDeadline(TimeUnit.MINUTES.toMillis(3)) // 1분 후 : 대략 1분 후. => 3분 정도 까지만 기다리자. => 안드로이드가 배터리 이슈로 정확한 시간 예약 X.
+                            .build()
+
+//                        예약 도구를 이용해 스케쥴 설정.
+                        js.schedule(jobInfo)
+
+
+
                         Toast.makeText(mContext, "약속을 등록했습니다.", Toast.LENGTH_SHORT).show()
                         finish()
                     }
