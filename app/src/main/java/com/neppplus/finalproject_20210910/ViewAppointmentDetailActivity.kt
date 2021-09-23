@@ -59,6 +59,12 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        binding.refreshBtn.setOnClickListener {
+
+            getAppointmentFromServer()
+
+        }
+
         binding.arrivalBtn.setOnClickListener {
 
 //            서버에 위치를 보내야한다고 flag값을 true
@@ -233,6 +239,9 @@ class ViewAppointmentDetailActivity : BaseActivity() {
                 mAppointmentData = basicResponse.data.appointment
 
                 //        받고 나서 API 응답 성공시 친구 목록 새로고침
+
+//                기존에 달려있는 친구목록 View들을 전부 제거. => 그 다음에 친구 목록을 다시 추가
+                binding.invitedFriendsLayout.removeAllViews()
 
                 val inflater = LayoutInflater.from(mContext)
 
