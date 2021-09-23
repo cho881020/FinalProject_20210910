@@ -213,6 +213,22 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
 //        4) 응용 1 - 친구목록 => 레이아웃에 xml inflate해서 하나씩 addView
 
+        getAppointmentFromServer()
+
+
+//        5) 응용 2 - 출발지 좌표도 지도에 설정.  (setNaverMap 함수)
+
+
+    }
+
+    fun getAppointmentFromServer() {
+
+//        친구 목록등의 내용을 서버에서 새로 받자.
+
+
+
+//        받고 나서 API 응답 성공시 친구 목록 새로고침
+
         val inflater = LayoutInflater.from(mContext)
 
         for (friend  in  mAppointmentData.invitedFriendList) {
@@ -231,9 +247,6 @@ class ViewAppointmentDetailActivity : BaseActivity() {
             binding.invitedFriendsLayout.addView(friendView)
 
         }
-
-//        5) 응용 2 - 출발지 좌표도 지도에 설정.  (setNaverMap 함수)
-
 
     }
 
