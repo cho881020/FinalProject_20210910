@@ -364,6 +364,7 @@ class EditAppoinmentActivity : BaseActivity() {
 
                         val jobInfo = JobInfo.Builder(basicResponse.data.appointment.id, serviceComponent)
                             .setMinimumLatency(jobTime) // 약속시간 (보다 2시간 전) 기준으로 =>  시간이 지나면 실행되도록.
+//                            .setMinimumLatency(TimeUnit.SECONDS.toMillis(20)) // 약속시간 (보다 2시간 전) 기준으로 =>  시간이 지나면 실행되도록.
                             .setOverrideDeadline(TimeUnit.MINUTES.toMillis(3)) // 1분 후 : 대략 1분 후. => 3분 정도 까지만 기다리자. => 안드로이드가 배터리 이슈로 정확한 시간 예약 X.
                             .build()
 
