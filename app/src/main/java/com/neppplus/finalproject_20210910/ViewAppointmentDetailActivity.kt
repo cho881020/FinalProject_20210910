@@ -231,6 +231,8 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
         val inflater = LayoutInflater.from(mContext)
 
+        val sdf = SimpleDateFormat("H:mm 도착")
+
         for (friend  in  mAppointmentData.invitedFriendList) {
 
             val friendView = inflater.inflate(R.layout.invited_friends_list_item, null)
@@ -239,6 +241,14 @@ class ViewAppointmentDetailActivity : BaseActivity() {
             val nicknameTxt = friendView.findViewById<TextView>(R.id.nicknameTxt)
             val statusTxt = friendView.findViewById<TextView>(R.id.statusTxt)
 
+            if (friend.arrivedAt == null) {
+//                아직 도착 X
+                statusTxt.text = "도착 전"
+            }
+            else {
+//                도착 시간 OK
+                statusTxt.text = sdf.format(friend.arrivedAt!!)
+            }
 
             Glide.with(mContext).load(friend.profileImgURL).into(friendProfileImg)
             nicknameTxt.text  =  friend.nickName
