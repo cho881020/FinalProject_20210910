@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.app.job.JobParameters
 import android.app.job.JobService
 import android.content.Intent
+import android.os.SystemClock
 import android.util.Log
 import com.neppplus.finalproject_20210910.receivers.AlarmReceiver
 import java.util.*
@@ -41,7 +42,7 @@ class MyJobService : JobService() {
 
 //        알람이 울릴 시간 설정 (임시 : 1분 후)
         val now = Calendar.getInstance()
-        val triggerTime = now.timeInMillis + 60 * 1000
+        val triggerTime = SystemClock.elapsedRealtime() + 30 * 1000
 
 //        실제 알람 기능 설정.
         alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerTime, pendingIntent)
