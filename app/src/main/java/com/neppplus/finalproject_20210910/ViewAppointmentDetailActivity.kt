@@ -26,12 +26,16 @@ import com.naver.maps.map.overlay.PathOverlay
 import com.naver.maps.map.util.MarkerIcons
 import com.neppplus.finalproject_20210910.databinding.ActivityViewAppointmentDetailBinding
 import com.neppplus.finalproject_20210910.datas.AppointmentData
+import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
 import com.odsay.odsayandroidsdk.ODsayService
 import com.odsay.odsayandroidsdk.OnResultCallbackListener
 import okhttp3.*
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.IOException
 import java.text.SimpleDateFormat
 
@@ -83,6 +87,42 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 //                                    서버에 위경도값 보내주기.
                                     Log.d("위도", p0.latitude.toString())
                                     Log.d("경도", p0.longitude.toString())
+
+                                    apiService.postRequestArrival(
+                                        mAppointmentData.id,
+                                        p0.latitude,
+                                        p0.longitude).enqueue(object : Callback<BasicResponse> {
+                                        override fun onResponse(
+                                            call: Call<BasicResponse>,
+                                            response: Response<BasicResponse>
+                                        ) {
+                                            if (response.isSuccessful) {
+
+
+
+                                            }
+                                            else {
+//                                                서버가 알려주는 인증 실패 사유 출력
+
+                                                val jsonObj = JSONObject(response.errorBody()!!.string())
+                                                Log.d("응답전문", jsonObj.toString())
+
+                                                val message = jsonObj.getString("message")
+
+                                                Toast.makeText(mContext, message, Toast.LENGTH_SHORT)
+                                                    .show()
+
+                                            }
+                                        }
+
+                                        override fun onFailure(
+                                            call: Call<BasicResponse>,
+                                            t: Throwable
+                                        ) {
+
+                                        }
+
+                                    })
 
 //                                    응답이 성공적으로 돌아오면 => 서버에 안보내기.
                                     needLocationSendServer = false
