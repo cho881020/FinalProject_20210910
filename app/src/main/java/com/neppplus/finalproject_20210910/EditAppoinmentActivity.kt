@@ -165,6 +165,15 @@ class EditAppoinmentActivity : BaseActivity() {
 
                             mNaverMap?.moveCamera( CameraUpdate.scrollTo(findPlaceLatLng) )
 
+//                            선택된 위경도를 변경
+
+                            mSelectedLat = lat
+                            mSelectedLng = lng
+
+//                            길찾기 / 소요시간 등 표시 작업
+                            drawStartPlaceToDestination(mNaverMap!!)
+
+
 
                         }
 
