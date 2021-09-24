@@ -31,10 +31,14 @@ import com.odsay.odsayandroidsdk.API
 import com.odsay.odsayandroidsdk.ODsayData
 import com.odsay.odsayandroidsdk.ODsayService
 import com.odsay.odsayandroidsdk.OnResultCallbackListener
+import okhttp3.HttpUrl
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -91,6 +95,52 @@ class EditAppoinmentActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+//        장소검색 버튼
+        binding.placeSearchBtn.setOnClickListener {
+
+            val inputPlaceName = binding.placeSearchEdt.text.toString()
+
+//            최소 2글자 이상 입력 필요
+            if (inputPlaceName.length < 2) {
+                Toast.makeText(mContext, "최소 2자 이상은 입력해야 합니다.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+//            다음 장소검색 API 활용. (지정된 주소 호출) => OkHttp를 직접 활용.
+
+//            1. 어디로 가야하는가? URL
+            val url = HttpUrl.parse("https://dapi.kakao.com/v2/local/search/keyword.json")!!.newBuilder()
+            url.addQueryParameter("query", inputPlaceName)
+
+            val urlString = url.toString()
+
+//            2. 어떤 메쏘드?
+//            3. 어떤 파라미터 / 헤더
+
+            val request = Request.Builder()
+                .get()
+                .header("Authorization", "KakaoAK a1f8fdea5118e8596b82a0a39c6f6a6b")
+                .build()
+
+            val client = OkHttpClient()
+            client.newCall(request).enqueue(object : okhttp3.Callback {
+                override fun onFailure(call: okhttp3.Call, e: IOException) {
+
+                }
+
+                override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+
+
+
+                }
+
+            })
+
+
+
+        }
+
 
 //        친구 추가 버튼 이벤트
         binding.addFriendToListBtn.setOnClickListener {
