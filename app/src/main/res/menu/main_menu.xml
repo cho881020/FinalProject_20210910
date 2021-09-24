@@ -4,7 +4,7 @@
     <item
         android:id="@+id/myAppointments"
         android:icon="@drawable/calendar_icon"
-        android:title="내 약속" />
+        android:title="내가 만든" />
 
     <item
         android:id="@+id/invitedAppointments"
