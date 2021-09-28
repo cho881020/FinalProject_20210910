@@ -70,6 +70,38 @@ class LoginActivity : BaseActivity() {
                             val url = "https://openapi.naver.com/v1/nid/me"
                             val jsonObj = JSONObject(mNaverLoginModule.requestApi(mContext, accessToken, url))
                             Log.d("네이버로그인내정보", jsonObj.toString())
+
+                            val responseObj = jsonObj.getJSONObject("response")
+
+//                            정보 추출
+                            val uid = responseObj.getString("id")
+                            val name = responseObj.getString("name")
+
+//                            우리 서버로 전달.
+                            apiService.postRequestSocialLogin(
+                                "naver",
+                                uid,
+                                name
+                            ).enqueue(object : retrofit2.Callback<BasicResponse> {
+                                override fun onResponse(
+                                    call: Call<BasicResponse>,
+                                    response: Response<BasicResponse>
+                                ) {
+
+//                                    소셜로그인 마무리 -> 토큰,Globaldata 로그인사용자 -> 메인화면으로 이동.
+
+                                    val basicResponse = response.body()!!
+                                    ContextUtil.setToken(mContext, basicResponse.data.token)
+                                    GlobalData.loginUser = basicResponse.data.user
+                                    moveToMain()
+
+                                }
+
+                                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                                }
+
+                            })
                         }.start()
 
 
