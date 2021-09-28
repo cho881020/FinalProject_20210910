@@ -24,6 +24,7 @@ import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.utils.ContextUtil
 import com.neppplus.finalproject_20210910.utils.GlobalData
 import com.nhn.android.naverlogin.OAuthLogin
+import com.nhn.android.naverlogin.OAuthLoginHandler
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -48,6 +49,27 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.naverLoginBtn.setOnClickListener {
+
+            mNaverLoginModule.startOauthLoginActivity(this, object : OAuthLoginHandler() {
+                override fun run(success: Boolean) {
+
+                    if (success) {
+                        
+//                        네이버로그인 성공하면 그 계정의 토큰값 추출
+                        
+                        val accessToken = mNaverLoginModule.getAccessToken(mContext)
+                    }
+                    else {
+                        Toast.makeText(mContext, "네이버 로그인에 실패했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+
+                }
+
+            })
+
+        }
 
         binding.loginBtn.setOnClickListener {
 

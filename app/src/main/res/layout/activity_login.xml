@@ -89,6 +89,13 @@
                     android:layout_height="60dp"
                     android:src="@drawable/kakao_login_icon" />
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/naverLoginBtn"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/naver_icon" />
+
 
             </LinearLayout>
 
