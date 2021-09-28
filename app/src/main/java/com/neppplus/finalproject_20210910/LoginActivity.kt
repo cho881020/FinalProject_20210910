@@ -7,6 +7,7 @@ import com.neppplus.finalproject_20210910.databinding.ActivityLoginBinding
 import android.content.pm.PackageManager
 
 import android.content.pm.PackageInfo
+import android.os.Handler
 import android.util.Base64
 import android.util.Log
 import java.security.MessageDigest
@@ -23,6 +24,8 @@ import com.kakao.sdk.user.UserApiClient
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.utils.ContextUtil
 import com.neppplus.finalproject_20210910.utils.GlobalData
+import com.nhn.android.naverlogin.OAuthLogin
+import com.nhn.android.naverlogin.OAuthLoginHandler
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -36,6 +39,8 @@ class LoginActivity : BaseActivity() {
 
     lateinit var callbackManager : CallbackManager
 
+    lateinit var naverLoginModule: OAuthLogin
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
@@ -45,6 +50,58 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.naverLoginBtn.setOnClickListener {
+                        naverLoginModule.startOauthLoginActivity(this, object : OAuthLoginHandler() {
+                override fun run(success: Boolean) {
+                    if (success) {
+
+                        val accessToken = naverLoginModule.getAccessToken(mContext)
+                        val myInfoUrl = "https://openapi.naver.com/v1/nid/me"
+
+                        Thread {
+                            val jsonObj = JSONObject(naverLoginModule.requestApi(mContext, accessToken, myInfoUrl))
+
+                            val responseObj = jsonObj.getJSONObject("response")
+                            val uid = responseObj.getString("id")
+                            val name = responseObj.getString("name")
+
+                            Log.d("jsonObj", jsonObj.toString())
+
+                            apiService.postRequestSocialLogin(
+                                "naver",
+                                uid,
+                                name
+                            ).enqueue(object : retrofit2.Callback<BasicResponse> {
+                                override fun onResponse(
+                                    call: Call<BasicResponse>,
+                                    response: Response<BasicResponse>
+                                ) {
+                                    val basicResponse = response.body()!!
+                                    ContextUtil.setToken(mContext, basicResponse.data.token)
+                                    GlobalData.loginUser = basicResponse.data.user
+                                    moveToMain()
+                                }
+
+                                override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+                                }
+
+                            })
+
+                        }.start()
+
+
+
+
+                    }
+                    else {
+
+                    }
+                }
+
+            })
+        }
 
         binding.loginBtn.setOnClickListener {
 
@@ -272,6 +329,19 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+        naverLoginModule = OAuthLogin.getInstance()
+        naverLoginModule.init(
+            this,
+            getString(R.string.naver_client_id),
+            getString(R.string.naver_client_secret),
+            getString(R.string.naver_client_name)
+        )
+
+        naverLoginModule.logout(mContext)
+
+
+
 
 //        제목 문구 숨김, 회사 로고 보여주기
         titleTxt.visibility = View.GONE

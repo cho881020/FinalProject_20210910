@@ -3,5 +3,9 @@
     <string name="facebook_app_id">423453599115810</string>
     <string name="fb_login_protocol_scheme">fb423453599115810</string>
 
+    <string name="naver_client_id">jShdqfuA7TpvSthbS6TL</string>
+    <string name="naver_client_secret">2U41R8t30A</string>
+    <string name="naver_client_name">약속지킴</string>
+
 
 </resources>
