@@ -234,9 +234,6 @@ class LoginActivity : BaseActivity() {
             }
         }
 
-        callbackManager = CallbackManager.Factory.create();
-
-        binding.loginButton.setReadPermissions("email")
 
         binding.facebookLoginBtn.setOnClickListener {
 
@@ -343,6 +340,10 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+
+//        페북로그인 - 콜백 관련 변수
+        callbackManager = CallbackManager.Factory.create();
 
 //        네이버로그인 모듈 세팅
         mNaverLoginModule = OAuthLogin.getInstance()
