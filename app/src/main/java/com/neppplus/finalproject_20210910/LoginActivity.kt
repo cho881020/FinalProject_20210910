@@ -62,6 +62,18 @@ class LoginActivity : BaseActivity() {
                         
                         val accessToken = mNaverLoginModule.getAccessToken(mContext)
                         Log.d("네이버토큰값", accessToken)
+
+//                        별개의 통신용 쓰레드 생성 -> 내 정보 요청
+                        Thread {
+//                            이 내부의 코드를 백그라운드 실행
+
+                            val url = "https://openapi.naver.com/v1/nid/me"
+                            val jsonObj = JSONObject(mNaverLoginModule.requestApi(mContext, accessToken, url))
+                            Log.d("네이버로그인내정보", jsonObj.toString())
+                        }.start()
+
+
+
                     }
                     else {
                         Toast.makeText(mContext, "네이버 로그인에 실패했습니다.", Toast.LENGTH_SHORT).show()
