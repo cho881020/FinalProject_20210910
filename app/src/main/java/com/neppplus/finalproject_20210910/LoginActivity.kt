@@ -52,6 +52,7 @@ class LoginActivity : BaseActivity() {
 
         binding.naverLoginBtn.setOnClickListener {
 
+
             mNaverLoginModule.startOauthLoginActivity(this, object : OAuthLoginHandler() {
                 override fun run(success: Boolean) {
 
@@ -60,6 +61,7 @@ class LoginActivity : BaseActivity() {
 //                        네이버로그인 성공하면 그 계정의 토큰값 추출
                         
                         val accessToken = mNaverLoginModule.getAccessToken(mContext)
+                        Log.d("네이버토큰값", accessToken)
                     }
                     else {
                         Toast.makeText(mContext, "네이버 로그인에 실패했습니다.", Toast.LENGTH_SHORT).show()
