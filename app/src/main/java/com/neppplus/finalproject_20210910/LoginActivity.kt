@@ -23,6 +23,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.neppplus.finalproject_20210910.datas.BasicResponse
 import com.neppplus.finalproject_20210910.utils.ContextUtil
 import com.neppplus.finalproject_20210910.utils.GlobalData
+import com.nhn.android.naverlogin.OAuthLogin
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -35,6 +36,8 @@ class LoginActivity : BaseActivity() {
     lateinit var binding : ActivityLoginBinding
 
     lateinit var callbackManager : CallbackManager
+
+    lateinit var mNaverLoginModule : OAuthLogin
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -272,6 +275,15 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+//        네이버로그인 모듈 세팅
+        mNaverLoginModule = OAuthLogin.getInstance()
+        mNaverLoginModule.init(
+            mContext,
+            getString(R.string.naver_client_id),
+            getString(R.string.naver_secret_key),
+            getString(R.string.naver_client_name)
+        )
 
 //        제목 문구 숨김, 회사 로고 보여주기
         titleTxt.visibility = View.GONE
