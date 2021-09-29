@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.neppplus.finalproject_20210910.utils.FontChanger
 import com.neppplus.finalproject_20210910.web.ServerAPI
 import com.neppplus.finalproject_20210910.web.ServerAPIService
 import retrofit2.Retrofit
@@ -38,6 +39,18 @@ abstract class BaseActivity : AppCompatActivity() {
         }
 
     }
+
+//    만들어지고 (onCreate) -> 화면에 나가기는 전 (onResume)
+
+    override fun onStart() {
+        super.onStart()
+
+//        (액티비티의 최상위 태그) rootView 받아와서 폰트변경기에 의뢰.
+        val rootView = window.decorView.rootView
+        FontChanger.setGlobalFont(mContext, rootView)
+
+    }
+
 
     abstract fun setupEvents()
     abstract fun setValues()
