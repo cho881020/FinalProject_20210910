@@ -19,7 +19,7 @@ class AppointmentRecyclerAdapter(
     val mContext: Context,
     val mList:List<AppointmentData>) : RecyclerView.Adapter<AppointmentRecyclerAdapter.AppointmentViewHolder>() {
 
-    class AppointmentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class AppointmentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         val titleTxt = view.findViewById<TextView>(R.id.titleTxt)
         val dateTimeTxt = view.findViewById<TextView>(R.id.dateTimeTxt)
@@ -27,7 +27,7 @@ class AppointmentRecyclerAdapter(
         val viewPlaceMapBtn = view.findViewById<ImageView>(R.id.viewPlaceMapBtn)
         val rootLayout = view.findViewById<LinearLayout>(R.id.rootLayout)
 
-        fun bind( context: Context, data: AppointmentData ) {
+        fun bind( data: AppointmentData ) {
             titleTxt.text = data.title
 
 //            약속일시 : Date형태로 파싱됨. => String으로 가공. SimpleDateFormat 사용.
@@ -38,15 +38,15 @@ class AppointmentRecyclerAdapter(
 
 //            이벤트 처리들
             viewPlaceMapBtn.setOnClickListener {
-                val myIntent = Intent(context, ViewMapActivity::class.java)
+                val myIntent = Intent(mContext, ViewMapActivity::class.java)
                 myIntent.putExtra("appointment", data)
-                context.startActivity(myIntent)
+                mContext.startActivity(myIntent)
             }
 
             rootLayout.setOnClickListener {
-                val myIntent = Intent(context, ViewAppointmentDetailActivity::class.java)
+                val myIntent = Intent(mContext, ViewAppointmentDetailActivity::class.java)
                 myIntent.putExtra("appointment",  data)
-                context.startActivity(myIntent)
+                mContext.startActivity(myIntent)
             }
 
 
@@ -64,7 +64,7 @@ class AppointmentRecyclerAdapter(
 
         val data = mList[position]
 
-        holder.bind(mContext, data)
+        holder.bind(data)
 
 
 
