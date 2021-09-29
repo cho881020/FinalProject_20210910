@@ -20,7 +20,7 @@ class InvitedAppointmentRecyclerAdapter(
     val mContext: Context,
     val mList:List<AppointmentData>) : RecyclerView.Adapter<InvitedAppointmentRecyclerAdapter.AppointmentViewHolder>() {
 
-    class AppointmentViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class AppointmentViewHolder(view: View) : BaseViewHolder(mContext, view) {
 
         val titleTxt = view.findViewById<TextView>(R.id.titleTxt)
         val dateTimeTxt = view.findViewById<TextView>(R.id.dateTimeTxt)

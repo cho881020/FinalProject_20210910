@@ -16,7 +16,7 @@ class MyPlaceRecyclerAdapter(
     val mContext: Context,
     val mList: List<PlaceData>) : RecyclerView.Adapter<MyPlaceRecyclerAdapter.MyViewHolder>() {
 
-    class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class MyViewHolder(view: View) : BaseViewHolder(mContext, view) {
 
         val placeNameTxt = view.findViewById<TextView>(R.id.placeNameTxt)
         val isPrimaryTxt = view.findViewById<TextView>(R.id.isPrimaryTxt)
