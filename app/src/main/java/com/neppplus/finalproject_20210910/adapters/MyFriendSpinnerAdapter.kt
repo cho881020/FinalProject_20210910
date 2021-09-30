@@ -15,6 +15,7 @@ import com.neppplus.finalproject_20210910.ViewMapActivity
 import com.neppplus.finalproject_20210910.datas.AppointmentData
 import com.neppplus.finalproject_20210910.datas.PlaceData
 import com.neppplus.finalproject_20210910.datas.UserData
+import com.neppplus.finalproject_20210910.utils.FontChanger
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 
@@ -55,6 +56,8 @@ class MyFriendSpinnerAdapter(
                 socialLoginImg.visibility = View.GONE
             }
         }
+
+        FontChanger.setGlobalFont(mContext, row)
 
         return row
     }
