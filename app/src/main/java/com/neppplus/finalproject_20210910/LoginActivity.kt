@@ -25,6 +25,9 @@ import com.neppplus.finalproject_20210910.utils.ContextUtil
 import com.neppplus.finalproject_20210910.utils.GlobalData
 import com.nhn.android.naverlogin.OAuthLogin
 import com.nhn.android.naverlogin.OAuthLoginHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -63,9 +66,18 @@ class LoginActivity : BaseActivity() {
                         val accessToken = mNaverLoginModule.getAccessToken(mContext)
                         Log.d("네이버토큰값", accessToken)
 
-//                        별개의 통신용 쓰레드 생성 -> 내 정보 요청
-                        Thread {
-//                            이 내부의 코드를 백그라운드 실행
+//                        코루틴으로 백그라운드 작업.
+
+//                        코루틴 => scope 코드 실행 {  } 정의.
+//                        Dispatcher => UI 쓰레드 / 백그라운드(Default) / IO (다운로드/업로드)
+
+                        val scope = CoroutineScope(Dispatchers.Default)
+
+                        scope.launch {
+
+//                            쓰레드 대신, 코루틴 사용 예시
+
+                            //                            이 내부의 코드를 백그라운드 실행
 
                             val url = "https://openapi.naver.com/v1/nid/me"
                             val jsonObj = JSONObject(mNaverLoginModule.requestApi(mContext, accessToken, url))
@@ -102,8 +114,8 @@ class LoginActivity : BaseActivity() {
                                 }
 
                             })
-                        }.start()
 
+                        }
 
 
                     }
