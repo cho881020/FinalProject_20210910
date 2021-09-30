@@ -36,10 +36,7 @@ class AppointmentData(
 //        현재 시간:
         val now = Calendar.getInstance() // 현재 일시
 
-//        약속시간 (utc) => 폰 설정 타임존 변환 - 현재시간 (폰 설정 타임존) : 몇시간?
-
-
-        val dateTimeToTimeZone = this.datetime.time + now.timeZone.rawOffset
+        val dateTimeToTimeZone = this.datetime.time
 
         val diff = dateTimeToTimeZone - now.timeInMillis
 
