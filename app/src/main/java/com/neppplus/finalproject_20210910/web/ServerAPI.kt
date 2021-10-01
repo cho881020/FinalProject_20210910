@@ -14,7 +14,8 @@ class ServerAPI {
     companion object {
 
 //        서버 주소
-        private val hostURL = "http://3.36.146.152"
+//        private val hostURL = "http://3.36.146.152"
+        private val hostURL = "https://keepthetime.xyz"
 
 //        Retrofit 형태의 변수가 => OkHttpClient처럼 실체 호출 담당.
 //        레트로핏 객체는 -> 하나만 만들어두고 -> 여러 화면에서 공유해서 사용.
