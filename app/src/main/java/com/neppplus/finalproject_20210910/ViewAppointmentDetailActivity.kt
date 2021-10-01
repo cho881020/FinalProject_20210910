@@ -59,6 +59,14 @@ class ViewAppointmentDetailActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        binding.scrollHelpTxt.setOnTouchListener { view, motionEvent ->
+
+            binding.scrollView.requestDisallowInterceptTouchEvent(true)
+
+//            터치 이벤트만 먹히게? X. => 뒤에 가려진 지도 동작도 같이 실행.
+            return@setOnTouchListener false
+        }
+
         binding.refreshBtn.setOnClickListener {
 
             getAppointmentFromServer()
